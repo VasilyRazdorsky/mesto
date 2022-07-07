@@ -11,7 +11,7 @@
 
     <div class="page__container">
         <header class="header">
-            <a href="#"><img src="images/header-logo.svg" alt="Логотип Место" class="header__logo"></a>
+            <img src="images/header-logo.svg" alt="Логотип Место" class="header__logo">
         </header>
 
         <main>
@@ -20,13 +20,13 @@
                 <div class="profile__info">
                     <div class="profile__info-first-line">
                         <h1 class="profile__name">Жак-Ив Кусто</h1>
-                        <button class="profile__edit-button">
+                        <button class="profile__edit-button" aria-label="Редактировать" type="button">
                             <img src="images/pen-icon.svg" alt="Ручка" class="profile__pen-icon">
                         </button>
                     </div>
                     <p class="profile__more-info">Исследователь океана</p>
                 </div>
-                <button class="profile__add-button">
+                <button class="profile__add-button" aria-label="Добавить пост" type="button">
                     <img src="images/plus-icon.svg" alt="Плюс" class="profile__plus-icon">
                 </button>
             </section>
@@ -35,60 +35,48 @@
                 <div class="element">
                     <img src="images/Moscow-City.jpg" alt="Небоскрёбы Москва Сити" class="element__photo">
                     <div class="element__info">
-                        <p class="element__name">Москва</p>
-                    <button class="element__like-button">
-                        <img src="images/heart-icon.svg" alt="Сердце" class="element__heart-icon">
-                    </button>
+                        <h2 class="element__name">Москва</h2>
+                    <button class="element__like-button" aria-label="Оценить пост" type="button"></button>
                     </div>
                 </div>
                 
                 <div class="element">
                     <img src="images/Warszawa.jpg" alt="Трамвай в Варшаве" class="element__photo">
                     <div class="element__info">
-                        <p class="element__name">Варшава</p>
-                    <button class="element__like-button">
-                        <img src="images/heart-icon.svg" alt="Сердце" class="element__heart-icon">
-                    </button>
+                        <h2 class="element__name">Варшава</h2>
+                    <button class="element__like-button" aria-label="Оценить пост" type="button"></button>
                     </div>
                 </div>
                 
                 <div class="element">
                     <img src="images/Torino.jpg" alt="Центр города в Турине" class="element__photo">
                     <div class="element__info">
-                        <p class="element__name">Турин</p>
-                    <button class="element__like-button">
-                        <img src="images/heart-icon.svg" alt="Сердце" class="element__heart-icon">
-                    </button>
+                        <h2 class="element__name">Турин</h2>
+                    <button class="element__like-button" aria-label="Оценить пост" type="button"></button>
                     </div>
                 </div>
                 
                 <div class="element">
                     <img src="images/Oman.jpg" alt="Архитектура в Омане" class="element__photo">
                     <div class="element__info">
-                        <p class="element__name">Оман</p>
-                    <button class="element__like-button">
-                        <img src="images/heart-icon.svg" alt="Сердце" class="element__heart-icon">
-                    </button>
+                        <h2 class="element__name">Оман</h2>
+                    <button class="element__like-button" aria-label="Оценить пост" type="button"></button>
                     </div>
                 </div>
                 
                 <div class="element">
                     <img src="images/Kuala-Lumpur.jpg" alt="Куала-Лумпур улица" class="element__photo">
                     <div class="element__info">
-                        <p class="element__name">Куала-Лумпур</p>
-                    <button class="element__like-button">
-                        <img src="images/heart-icon.svg" alt="Сердце" class="element__heart-icon">
-                    </button>
+                        <h2 class="element__name">Куала-Лумпур</h2>
+                    <button class="element__like-button" aria-label="Оценить пост" type="button"></button>
                     </div>
                 </div>
 
                 <div class="element">
                     <img src="images/Paris.jpg" alt="Улица в Париже" class="element__photo">
                     <div class="element__info">
-                        <p class="element__name">Париж</p>
-                    <button class="element__like-button">
-                        <img src="images/heart-icon.svg" alt="Сердце" class="element__heart-icon">
-                    </button>
+                        <h2 class="element__name">Париж</h2>
+                    <button class="element__like-button" aria-label="Оценить пост" type="button"></button>
                     </div>
                 </div>
                 
@@ -101,15 +89,15 @@
 
         <section class="popup">
             <div class="popup__container">
-                <button class="popup__close-button">
+                <button class="popup__close-button" aria-label="Закрыть редактирование" type="button">
                     <img src="images/close-icon.svg" alt="Кнопка закрыть" class="popup__close-icon">
                 </button>
                 
                 <h2 class="popup__header">Редактировать профиль</h2>
                 
-                <form action="#" class="popup__form">
-                    <input type="text" placeholder="Имя" class="popup__input popup__input_name">
-                    <input type="text" placeholder="О себе" class="popup__input popup__input_more-info">
+                <form action="#" class="popup__form" name="popup-form">
+                    <input type="text" placeholder="Имя" class="popup__input popup__input_text_name">
+                    <input type="text" placeholder="О себе" class="popup__input popup__input_text_more-info">
                     <button type="submit" class="popup__save-button">Сохранить</button>
                 </form>
                 
@@ -117,6 +105,6 @@
         </section>
     </div>
     
-    <script src="scripts/script.js"></script>
+    <script src="scripts/index.js"></script>
 </body>
 </html>
