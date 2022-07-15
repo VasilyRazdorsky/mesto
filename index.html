@@ -31,58 +31,7 @@
                 </button>
             </section>
 
-            <section class="elements">
-                <!--
-                <div class="element">
-                    <img src="images/Moscow-City.jpg" alt="Небоскрёбы Москва Сити" class="element__photo">
-                    <div class="element__info">
-                        <h2 class="element__name">Москва</h2>
-                    <button class="element__like-button" aria-label="Оценить пост" type="button"></button>
-                    </div>
-                </div>
-                
-                <div class="element">
-                    <img src="images/Warszawa.jpg" alt="Трамвай в Варшаве" class="element__photo">
-                    <div class="element__info">
-                        <h2 class="element__name">Варшава</h2>
-                    <button class="element__like-button" aria-label="Оценить пост" type="button"></button>
-                    </div>
-                </div>
-                
-                <div class="element">
-                    <img src="images/Torino.jpg" alt="Центр города в Турине" class="element__photo">
-                    <div class="element__info">
-                        <h2 class="element__name">Турин</h2>
-                    <button class="element__like-button" aria-label="Оценить пост" type="button"></button>
-                    </div>
-                </div>
-                
-                <div class="element">
-                    <img src="images/Oman.jpg" alt="Архитектура в Омане" class="element__photo">
-                    <div class="element__info">
-                        <h2 class="element__name">Оман</h2>
-                    <button class="element__like-button" aria-label="Оценить пост" type="button"></button>
-                    </div>
-                </div>
-                
-                <div class="element">
-                    <img src="images/Kuala-Lumpur.jpg" alt="Куала-Лумпур улица" class="element__photo">
-                    <div class="element__info">
-                        <h2 class="element__name">Куала-Лумпур</h2>
-                    <button class="element__like-button" aria-label="Оценить пост" type="button"></button>
-                    </div>
-                </div>
-
-                <div class="element">
-                    <img src="images/Paris.jpg" alt="Улица в Париже" class="element__photo">
-                    <div class="element__info">
-                        <h2 class="element__name">Париж</h2>
-                    <button class="element__like-button" aria-label="Оценить пост" type="button"></button>
-                    </div>
-                </div>
-                -->
-                
-            </section>
+            <section class="elements"></section>
         </main>
 
         <footer class="footer">
@@ -122,11 +71,25 @@
                 
             </div>
         </section>
+
+        <section class="popup popup_action_view-post">
+            <div class="popup__container popup__container_place_view-post-popup">
+                <button class="popup__close-button popup__close-button_place_view-post-popup" aria-label="Закрыть редактирование" type="button">
+                    <img src="images/close-icon.svg" alt="Кнопка закрыть" class="popup__close-icon">
+                </button>
+
+                <img src="" alt="#" class="popup__photo">
+                <p class="popup__photo-place"></p>
+                
+            </div>
+        </section>
     </div>
 
     <template class="element-template">
         <div class="element">
-            <img src="" alt="#" class="element__photo">
+            <button class="element__view-button" aria-label="Посмотреть фото" type="button">
+                <img src="" alt="#" class="element__photo">
+            </button>
             <div class="element__info">
                 <h2 class="element__name"></h2>
             <button class="element__like-button" aria-label="Оценить пост" type="button"></button>

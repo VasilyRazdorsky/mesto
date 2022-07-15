@@ -1,0 +1,9 @@
+.popup__container_place_view-post-popup {
+    max-width: 100%;
+    width: fit-content;
+    max-height: fit-content;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: transparent;
+}

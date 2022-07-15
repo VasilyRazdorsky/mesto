@@ -1,30 +1,3 @@
-const initialCards = [
-  {
-    name: "Архыз",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
-  },
-  {
-    name: "Челябинская область",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
-  },
-  {
-    name: "Иваново",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
-  },
-  {
-    name: "Камчатка",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
-  },
-  {
-    name: "Холмогорский район",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
-  },
-  {
-    name: "Байкал",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
-  },
-];
-
 const selectors = {
   popupProfileEdit: ".popup_action_edit",
   profileEditButton: ".profile__edit-button",
@@ -40,9 +13,14 @@ const selectors = {
   popupAddPostForm: ".popup__form_place_add-post-popup",
   popupAddPostName: ".popup__input_text_post-name",
   popupAddPostImgHref: ".popup__input_text_post-img-href",
+  popupViewPost: ".popup_action_view-post",
+  popupViewPostPhoto: ".popup__photo",
+  popupViewPostName: ".popup__photo-place",
+  popupViewPostCloseButton: ".popup__close-button_place_view-post-popup",
   elementsList: ".elements",
   elementTemplate: ".element-template",
   element: ".element",
+  elementViewButton: ".element__view-button",
   elementPhoto: ".element__photo",
   elementName: ".element__name",
   elementLikeButton: ".element__like-button",
@@ -124,11 +102,13 @@ const createPost = function (imgHref, name) {
   template.querySelector(selectors.elementPhoto).src = imgHref;
   template.querySelector(selectors.elementName).textContent = name;
 
+  // Лайк поста
   const elementLikeButton = template.querySelector(selectors.elementLikeButton);
   elementLikeButton.addEventListener("click", function () {
     elementLikeButton.classList.toggle("element__like-button_active");
   });
 
+  // Удаление поста
   const elementRemoveButton = template.querySelector(
     selectors.elementRemoveButton
   );
@@ -136,8 +116,31 @@ const createPost = function (imgHref, name) {
     template.remove();
   });
 
-  elementsList.appendChild(template);
+  // Просмотр фото поста
+  const elementViewButton = template.querySelector(selectors.elementViewButton);
+  elementViewButton.addEventListener("click", function () {
+    viewPostPhoto(imgHref, name);
+  });
+
+  elementsList.prepend(template);
 };
+
+function viewPostPhoto(imgHref, name) {
+  // Открытие попапа
+  const popupViewPost = document.querySelector(selectors.popupViewPost);
+  popupOpen(popupViewPost);
+
+  popupViewPost.querySelector(selectors.popupViewPostPhoto).src = imgHref;
+  popupViewPost.querySelector(selectors.popupViewPostName).textContent = name;
+
+  // Закрытие попапа
+  const popupViewPostCloseButton = popupViewPost.querySelector(
+    selectors.popupViewPostCloseButton
+  );
+  popupViewPostCloseButton.addEventListener("click", function () {
+    popupClose(popupViewPost);
+  });
+}
 
 function addEventListeners() {
   //Открытие попапов
@@ -158,6 +161,32 @@ function addEventListeners() {
 }
 
 function createInitialPosts() {
+  const initialCards = [
+    {
+      name: "Архыз",
+      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
+    },
+    {
+      name: "Челябинская область",
+      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
+    },
+    {
+      name: "Иваново",
+      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
+    },
+    {
+      name: "Камчатка",
+      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
+    },
+    {
+      name: "Холмогорский район",
+      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
+    },
+    {
+      name: "Байкал",
+      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
+    },
+  ];
   initialCards.forEach((item) => createPost(item.link, item.name));
 }
 

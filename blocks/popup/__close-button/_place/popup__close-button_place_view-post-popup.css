@@ -1,0 +1,4 @@
+.popup__close-button_place_view-post-popup {
+    top: calc(-32px - 8px);
+    right: (-32px - 8px);
+}

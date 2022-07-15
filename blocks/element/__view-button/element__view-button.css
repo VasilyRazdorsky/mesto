@@ -1,0 +1,11 @@
+.element__view-button {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    width: 282px;
+    height: 282px;
+}
+
+.element__view-button:hover {
+    cursor: pointer;
+}
