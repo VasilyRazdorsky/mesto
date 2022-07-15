@@ -27,11 +27,11 @@ const selectors = {
   elementRemoveButton: ".element__remove-button",
 };
 
-const popupOpen = function (popup) {
+const openPopup = function (popup) {
   popup.classList.add("popup_active");
 };
 
-const popupClose = function (popup) {
+const closePopup = function (popup) {
   popup.classList.remove("popup_active");
 };
 
@@ -51,21 +51,21 @@ const popupProfileEditForm = popupProfileEdit.querySelector(
   selectors.popupProfileEditForm
 );
 
-const popupProfileEditOpen = function () {
-  popupOpen(popupProfileEdit);
+const openPopupProfileEdit = function () {
+  openPopup(popupProfileEdit);
   popupInputName.value = profileName.textContent;
   popupInputMoreInfo.value = profileMoreInfo.textContent;
 };
 
-const popupProfileEditClose = function () {
-  popupClose(popupProfileEdit);
+const closePopupProfileEdit = function () {
+  closePopup(popupProfileEdit);
 };
 
 const formSubmitHandlerProfileEdit = function (evt) {
   evt.preventDefault();
   profileName.textContent = popupInputName.value;
   profileMoreInfo.textContent = popupInputMoreInfo.value;
-  popupClose(popupProfileEdit);
+  closePopup(popupProfileEdit);
 };
 
 // Попап добавления постов
@@ -83,14 +83,14 @@ const popupAddPostImgHref = popupAddPost.querySelector(
 const popupAddPostForm = popupAddPost.querySelector(selectors.popupAddPostForm);
 const elementsList = document.querySelector(selectors.elementsList);
 
-const popupAddPostOpen = function () {
-  popupOpen(popupAddPost);
+const openPopupAddPost = function () {
+  openPopup(popupAddPost);
   popupAddPostName.value = "";
   popupAddPostImgHref.value = "";
 };
 
-const popupAddPostClose = function () {
-  popupClose(popupAddPost);
+const closePopupAddPost = function () {
+  closePopup(popupAddPost);
 };
 
 const createPost = function (imgHref, name) {
@@ -100,6 +100,7 @@ const createPost = function (imgHref, name) {
     .cloneNode(true);
 
   template.querySelector(selectors.elementPhoto).src = imgHref;
+  template.querySelector(selectors.elementPhoto).alt = name;
   template.querySelector(selectors.elementName).textContent = name;
 
   // Лайк поста
@@ -125,38 +126,44 @@ const createPost = function (imgHref, name) {
   elementsList.prepend(template);
 };
 
+// Попап просмотра поста
+const popupViewPost = document.querySelector(selectors.popupViewPost);
+const popupViewPostCloseButton = popupViewPost.querySelector(
+  selectors.popupViewPostCloseButton
+);
+const popupViewPostPhoto = popupViewPost.querySelector(
+  selectors.popupViewPostPhoto
+);
+const popupViewPostName = popupViewPost.querySelector(
+  selectors.popupViewPostName
+);
+
 function viewPostPhoto(imgHref, name) {
-  // Открытие попапа
-  const popupViewPost = document.querySelector(selectors.popupViewPost);
-  popupOpen(popupViewPost);
+  openPopup(popupViewPost);
 
-  popupViewPost.querySelector(selectors.popupViewPostPhoto).src = imgHref;
-  popupViewPost.querySelector(selectors.popupViewPostName).textContent = name;
-
-  // Закрытие попапа
-  const popupViewPostCloseButton = popupViewPost.querySelector(
-    selectors.popupViewPostCloseButton
-  );
-  popupViewPostCloseButton.addEventListener("click", function () {
-    popupClose(popupViewPost);
-  });
+  popupViewPostPhoto.src = imgHref;
+  popupViewPostPhoto.alt = name;
+  popupViewPostName.textContent = name;
 }
 
 const addEventListeners = function () {
   //Открытие попапов
-  profileEditButton.addEventListener("click", popupProfileEditOpen);
-  profileAddPostButton.addEventListener("click", popupAddPostOpen);
+  profileEditButton.addEventListener("click", openPopupProfileEdit);
+  profileAddPostButton.addEventListener("click", openPopupAddPost);
 
   //Закрытие попапов
-  popupProfileEditCloseButton.addEventListener("click", popupProfileEditClose);
-  popupAddPostCloseButton.addEventListener("click", popupAddPostClose);
+  popupProfileEditCloseButton.addEventListener("click", closePopupProfileEdit);
+  popupAddPostCloseButton.addEventListener("click", closePopupAddPost);
+  popupViewPostCloseButton.addEventListener("click", function () {
+    closePopup(popupViewPost);
+  });
 
   //Обработка введённой информации в попапах
   popupProfileEditForm.addEventListener("submit", formSubmitHandlerProfileEdit);
   popupAddPostForm.addEventListener("submit", function (evt) {
     evt.preventDefault();
     createPost(popupAddPostImgHref.value, popupAddPostName.value);
-    popupAddPostClose();
+    closePopupAddPost();
   });
 };
 
