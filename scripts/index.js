@@ -27,13 +27,13 @@ const selectors = {
   elementRemoveButton: ".element__remove-button",
 };
 
-function popupOpen(popup) {
+const popupOpen = function (popup) {
   popup.classList.add("popup_active");
-}
+};
 
-function popupClose(popup) {
+const popupClose = function (popup) {
   popup.classList.remove("popup_active");
-}
+};
 
 // Попап редактирования профиля
 const popupProfileEdit = document.querySelector(selectors.popupProfileEdit);
@@ -142,7 +142,7 @@ function viewPostPhoto(imgHref, name) {
   });
 }
 
-function addEventListeners() {
+const addEventListeners = function () {
   //Открытие попапов
   profileEditButton.addEventListener("click", popupProfileEditOpen);
   profileAddPostButton.addEventListener("click", popupAddPostOpen);
@@ -158,9 +158,9 @@ function addEventListeners() {
     createPost(popupAddPostImgHref.value, popupAddPostName.value);
     popupAddPostClose();
   });
-}
+};
 
-function createInitialPosts() {
+const createInitialPosts = function () {
   const initialCards = [
     {
       name: "Архыз",
@@ -188,7 +188,7 @@ function createInitialPosts() {
     },
   ];
   initialCards.forEach((item) => createPost(item.link, item.name));
-}
+};
 
 addEventListeners();
 createInitialPosts();
