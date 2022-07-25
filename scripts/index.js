@@ -103,12 +103,6 @@ const createPost = function (imgHref, name) {
   template.querySelector(selectors.elementPhoto).alt = name;
   template.querySelector(selectors.elementName).textContent = name;
 
-  // Лайк поста
-  const elementLikeButton = template.querySelector(selectors.elementLikeButton);
-  elementLikeButton.addEventListener("click", function () {
-    elementLikeButton.classList.toggle("element__like-button_active");
-  });
-
   // Удаление поста
   const elementRemoveButton = template.querySelector(
     selectors.elementRemoveButton
@@ -164,6 +158,13 @@ const addEventListeners = function () {
     evt.preventDefault();
     createPost(popupAddPostImgHref.value, popupAddPostName.value);
     closePopupAddPost();
+  });
+
+  //Всплытие события лайка поста
+  elementsList.addEventListener("click", function (event) {
+    if (event.target.classList.contains("element__like-button")) {
+      event.target.classList.toggle("element__like-button_active");
+    }
   });
 };
 
