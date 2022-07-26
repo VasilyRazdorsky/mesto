@@ -62,7 +62,6 @@ const closePopupProfileEdit = function () {
 };
 
 const formSubmitHandlerProfileEdit = function (evt) {
-  evt.preventDefault();
   profileName.textContent = popupInputName.value;
   profileMoreInfo.textContent = popupInputMoreInfo.value;
   closePopup(popupProfileEdit);
@@ -154,8 +153,7 @@ const addEventListeners = function () {
 
   //Обработка введённой информации в попапах
   popupProfileEditForm.addEventListener("submit", formSubmitHandlerProfileEdit);
-  popupAddPostForm.addEventListener("submit", function (evt) {
-    evt.preventDefault();
+  popupAddPostForm.addEventListener("submit", function () {
     createPost(popupAddPostImgHref.value, popupAddPostName.value);
     closePopupAddPost();
   });
