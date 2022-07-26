@@ -4,16 +4,24 @@ const formSelectors = {
     submitButtonSelector: '.popup__save-button',
     inactiveButtonClass: 'popup__save-button_disabled',
     inputErrorClass: 'popup__input_invalid',
+    errorActiveClass: 'popup__error_active',
+    errorSelector: '.popup__error',
+}
+
+
+// Реализация валидации
+const findErrorPlace = function(formElement, inputElement) {
+    return formElement.querySelector(`.${inputElement.id}-error`);
 }
 
 const showInputError = function(formElement, inputElement, errorMessage, selectors){
-    const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+    const errorElement = findErrorPlace(formElement, inputElement)
     inputElement.classList.add(selectors.inputErrorClass);
     errorElement.textContent = errorMessage;
 };
 
 const hideInputError = function(formElement, inputElement, selectors){
-    const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+    const errorElement = findErrorPlace(formElement, inputElement)
     inputElement.classList.remove(selectors.inputErrorClass);
     errorElement.textContent = "";
 }
@@ -58,10 +66,31 @@ const setEventListeners = function(formElement, selectors){
 const enableValidation = function(selectors) {
     const formList = Array.from(document.querySelectorAll(selectors.formSelector));
     formList.forEach(formElement => {
-        formElement.addEventListener("submit", event => event.preventDefault());
+        formElement.addEventListener("submit", event => {
+            event.preventDefault();
+        });
 
-        setEventListeners(formElement, formSelectors);
+        setEventListeners(formElement, selectors);
     });
 };
 
+// Сброс валидации
+const cleanLastValidation = function(formElement, selectors){
+    // Сбрасываем красную подсветку
+    const inputList = Array.from(formElement.querySelectorAll(selectors.inputSelector));
+    inputList.forEach(inputElement => {
+        inputElement.classList.remove(selectors.inputErrorClass);
+    });
+
+    const errorList = Array.from(formElement.querySelectorAll(selectors.errorSelector));
+    errorList.forEach(errorElement => {
+        errorElement.textContent = "";
+    });
+
+    const buttonElement = formElement.querySelector(selectors.submitButtonSelector);
+    toggleButtonState(inputList, buttonElement,selectors);
+};
+
+
+// Запуск валидации
 enableValidation(formSelectors);

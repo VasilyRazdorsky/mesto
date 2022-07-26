@@ -55,6 +55,7 @@ const openPopupProfileEdit = function () {
   openPopup(popupProfileEdit);
   popupInputName.value = profileName.textContent;
   popupInputMoreInfo.value = profileMoreInfo.textContent;
+  cleanLastValidation(popupProfileEditForm, formSelectors);
 };
 
 const closePopupProfileEdit = function () {
@@ -86,6 +87,7 @@ const openPopupAddPost = function () {
   openPopup(popupAddPost);
   popupAddPostName.value = "";
   popupAddPostImgHref.value = "";
+  cleanLastValidation(popupAddPostForm, formSelectors);
 };
 
 const closePopupAddPost = function () {

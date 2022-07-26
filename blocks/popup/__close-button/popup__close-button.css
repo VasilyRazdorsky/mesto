@@ -5,8 +5,8 @@
     border: none;
     background-color: transparent;
     position: absolute;
-    right: calc(-36px - 8px);
-    bottom: calc(275px + 36px + 36px + 8px);
+    top: calc(-32px - 8px);
+    right: calc(-32px - 8px);
     opacity: 1;
     transition: opacity ease-in .2s;
 }
