@@ -163,7 +163,7 @@ const addEventListeners = function () {
   popupProfileEditForm.addEventListener("submit", formSubmitHandlerProfileEdit);
   popupAddPostForm.addEventListener("submit", function () {
     createPost(popupAddPostImgHref.value, popupAddPostName.value);
-    closePopupAddPost();
+    closePopup(popupAddPost);
   });
 
   //Делегирование события лайка поста
