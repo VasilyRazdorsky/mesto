@@ -1,14 +1,3 @@
-const formSelectors = {
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__save-button',
-    inactiveButtonClass: 'popup__save-button_disabled',
-    inputErrorClass: 'popup__input_invalid',
-    errorActiveClass: 'popup__error_active',
-    errorSelector: '.popup__error',
-}
-
-
 // Реализация валидации
 const findErrorPlace = function(formElement, inputElement) {
     return formElement.querySelector(`.${inputElement.id}-error`);
@@ -76,15 +65,9 @@ const enableValidation = function(selectors) {
 
 // Сброс валидации
 const cleanLastValidation = function(formElement, selectors){
-    // Сбрасываем красную подсветку
     const inputList = Array.from(formElement.querySelectorAll(selectors.inputSelector));
     inputList.forEach(inputElement => {
-        inputElement.classList.remove(selectors.inputErrorClass);
-    });
-
-    const errorList = Array.from(formElement.querySelectorAll(selectors.errorSelector));
-    errorList.forEach(errorElement => {
-        errorElement.textContent = "";
+        hideInputError(formElement, inputElement, selectors);
     });
 
     const buttonElement = formElement.querySelector(selectors.submitButtonSelector);

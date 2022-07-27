@@ -1,43 +1,11 @@
-const selectors = {
-  popupSelector: ".popup",
-  popupActiveClass: "popup_active",
-  popupCloseButtonSelector: ".popup__close-button",
-  popupProfileEdit: ".popup_action_edit",
-  profileEditButton: ".profile__edit-button",
-  popupProfileEditCloseButton: ".popup__close-button_place_edit-popup",
-  popupInputName: ".popup__input_text_profile-name",
-  popupInputMoreInfo: ".popup__input_text_profile-more-info",
-  profileName: ".profile__name",
-  profileMoreInfo: ".profile__more-info",
-  popupProfileEditForm: ".popup__form_place_edit-popup",
-  profileAddPostButton: ".profile__add-button",
-  popupAddPost: ".popup_action_add-post",
-  popupAddPostCloseButton: ".popup__close-button_place_add-post-popup",
-  popupAddPostForm: ".popup__form_place_add-post-popup",
-  popupAddPostName: ".popup__input_text_post-name",
-  popupAddPostImgHref: ".popup__input_text_post-img-href",
-  popupViewPost: ".popup_action_view-post",
-  popupViewPostPhoto: ".popup__photo",
-  popupViewPostName: ".popup__photo-place",
-  popupViewPostCloseButton: ".popup__close-button_place_view-post-popup",
-  elementsList: ".elements",
-  elementTemplate: ".element-template",
-  element: ".element",
-  elementViewButton: ".element__view-button",
-  elementPhoto: ".element__photo",
-  elementName: ".element__name",
-  elementLikeButton: ".element__like-button",
-  elementRemoveButton: ".element__remove-button",
-};
-
 // Универсальные функции открытия и закрытия попапов
-const openPopup = function (popup) {
-  document.addEventListener('keydown', event => closePopupWithKey(event, popup));
+const openPopup = (popup) => {
+  document.addEventListener('keydown', closePopupWithKey);
   popup.classList.add("popup_active");
 };
 
-const closePopup = function (popup) {
-  document.removeEventListener('keydown', event => closePopupWithKey(event, popup));
+const closePopup = (popup) => {
+  document.removeEventListener('keydown', closePopupWithKey);
   popup.classList.remove("popup_active");
 };
 
@@ -53,9 +21,9 @@ const closePopupOverlayAndButton = function(event, popup) {
   }
 };
 
-function closePopupWithKey(event, popup) {
+function closePopupWithKey(event) {
   if(event.key === 'Escape') {
-    closePopup(popup);  
+    closePopup(document.querySelector(selectors.popupActiveSelector));  
   }
 }
 
@@ -80,7 +48,7 @@ const openPopupProfileEdit = function () {
   cleanLastValidation(popupProfileEditForm, formSelectors);
 };
 
-const formSubmitHandlerProfileEdit = function () {
+const handleFormSubmiProfileEdit = function () {
   profileName.textContent = popupInputName.value;
   profileMoreInfo.textContent = popupInputMoreInfo.value;
   closePopup(popupProfileEdit);
@@ -99,10 +67,10 @@ const popupAddPostForm = popupAddPost.querySelector(selectors.popupAddPostForm);
 const elementsList = document.querySelector(selectors.elementsList);
 
 const openPopupAddPost = function () {
-  openPopup(popupAddPost);
   popupAddPostName.value = "";
   popupAddPostImgHref.value = "";
   cleanLastValidation(popupAddPostForm, formSelectors);
+  openPopup(popupAddPost);
 };
 
 const createPost = function (imgHref, name) {
@@ -111,9 +79,16 @@ const createPost = function (imgHref, name) {
     .content.querySelector(selectors.element)
     .cloneNode(true);
 
-  template.querySelector(selectors.elementPhoto).src = imgHref;
-  template.querySelector(selectors.elementPhoto).alt = name;
+  const elementPhoto = template.querySelector(selectors.elementPhoto);
+  elementPhoto.src = imgHref;
+  elementPhoto.alt = name;
   template.querySelector(selectors.elementName).textContent = name;
+
+  // Лайк поста
+  const elementLikeButton = template.querySelector(selectors.elementLikeButton);
+  elementLikeButton.addEventListener("click", function () {
+    elementLikeButton.classList.toggle("element__like-button_active");
+  });
 
   // Удаление поста
   const elementRemoveButton = template.querySelector(
@@ -129,8 +104,15 @@ const createPost = function (imgHref, name) {
     viewPostPhoto(imgHref, name);
   });
 
-  elementsList.prepend(template);
+  
+  return template;
 };
+
+
+const addNewCardOnPage = function(imgHref, name) {
+  elementsList.prepend(createPost(imgHref,name));
+}
+
 
 // Попап просмотра поста
 const popupViewPost = document.querySelector(selectors.popupViewPost);
@@ -142,11 +124,10 @@ const popupViewPostName = popupViewPost.querySelector(
 );
 
 function viewPostPhoto(imgHref, name) {
-  openPopup(popupViewPost);
-
   popupViewPostPhoto.src = imgHref;
   popupViewPostPhoto.alt = name;
   popupViewPostName.textContent = name;
+  openPopup(popupViewPost);
 }
 
 const addEventListeners = function () {
@@ -160,48 +141,15 @@ const addEventListeners = function () {
   });
 
   //Обработка введённой информации в попапах
-  popupProfileEditForm.addEventListener("submit", formSubmitHandlerProfileEdit);
+  popupProfileEditForm.addEventListener("submit", handleFormSubmiProfileEdit);
   popupAddPostForm.addEventListener("submit", function () {
-    createPost(popupAddPostImgHref.value, popupAddPostName.value);
+    addNewCardOnPage(popupAddPostImgHref.value, popupAddPostName.value);
     closePopup(popupAddPost);
-  });
-
-  //Делегирование события лайка поста
-  elementsList.addEventListener("click", function (event) {
-    if (event.target.classList.contains("element__like-button")) {
-      event.target.classList.toggle("element__like-button_active");
-    }
   });
 };
 
-const createInitialPosts = function () {
-  const initialCards = [
-    {
-      name: "Архыз",
-      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
-    },
-    {
-      name: "Челябинская область",
-      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
-    },
-    {
-      name: "Иваново",
-      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
-    },
-    {
-      name: "Камчатка",
-      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
-    },
-    {
-      name: "Холмогорский район",
-      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
-    },
-    {
-      name: "Байкал",
-      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
-    },
-  ];
-  initialCards.forEach((item) => createPost(item.link, item.name));
+function createInitialPosts() {
+  initialCards.forEach((item) => addNewCardOnPage(item.link, item.name));
 };
 
 addEventListeners();
