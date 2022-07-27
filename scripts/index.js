@@ -1,4 +1,7 @@
 const selectors = {
+  popupSelector: ".popup",
+  popupActiveClass: "popup_active",
+  popupCloseButtonSelector: ".popup__close-button",
   popupProfileEdit: ".popup_action_edit",
   profileEditButton: ".profile__edit-button",
   popupProfileEditCloseButton: ".popup__close-button_place_edit-popup",
@@ -27,13 +30,35 @@ const selectors = {
   elementRemoveButton: ".element__remove-button",
 };
 
+// Универсальные функции открытия и закрытия попапов
 const openPopup = function (popup) {
+  document.addEventListener('keydown', event => closePopupWithKey(event, popup));
   popup.classList.add("popup_active");
 };
 
 const closePopup = function (popup) {
+  document.removeEventListener('keydown', event => closePopupWithKey(event, popup));
   popup.classList.remove("popup_active");
 };
+
+// Все попапы + гибкая функция закрытия попапов нажатием на оверлей или крестик + закрытие попапов нажатием Esc
+const popups = Array.from(document.querySelectorAll(selectors.popupSelector));
+
+const closePopupOverlayAndButton = function(event, popup) {
+  if(event.target.classList.contains(selectors.popupActiveClass)){
+    closePopup(popup);
+  }
+  if (event.target.closest(selectors.popupCloseButtonSelector)) {
+    closePopup(popup);
+  }
+};
+
+function closePopupWithKey(event, popup) {
+  if(event.key === 'Escape') {
+    closePopup(popup);  
+  }
+}
+
 
 // Попап редактирования профиля
 const popupProfileEdit = document.querySelector(selectors.popupProfileEdit);
@@ -44,9 +69,6 @@ const popupInputMoreInfo = popupProfileEdit.querySelector(
 );
 const profileMoreInfo = document.querySelector(selectors.profileMoreInfo);
 const profileEditButton = document.querySelector(selectors.profileEditButton);
-const popupProfileEditCloseButton = popupProfileEdit.querySelector(
-  selectors.popupProfileEditCloseButton
-);
 const popupProfileEditForm = popupProfileEdit.querySelector(
   selectors.popupProfileEditForm
 );
@@ -58,11 +80,7 @@ const openPopupProfileEdit = function () {
   cleanLastValidation(popupProfileEditForm, formSelectors);
 };
 
-const closePopupProfileEdit = function () {
-  closePopup(popupProfileEdit);
-};
-
-const formSubmitHandlerProfileEdit = function (evt) {
+const formSubmitHandlerProfileEdit = function () {
   profileName.textContent = popupInputName.value;
   profileMoreInfo.textContent = popupInputMoreInfo.value;
   closePopup(popupProfileEdit);
@@ -72,9 +90,6 @@ const formSubmitHandlerProfileEdit = function (evt) {
 const popupAddPost = document.querySelector(selectors.popupAddPost);
 const profileAddPostButton = document.querySelector(
   selectors.profileAddPostButton
-);
-const popupAddPostCloseButton = popupAddPost.querySelector(
-  selectors.popupAddPostCloseButton
 );
 const popupAddPostName = popupAddPost.querySelector(selectors.popupAddPostName);
 const popupAddPostImgHref = popupAddPost.querySelector(
@@ -88,10 +103,6 @@ const openPopupAddPost = function () {
   popupAddPostName.value = "";
   popupAddPostImgHref.value = "";
   cleanLastValidation(popupAddPostForm, formSelectors);
-};
-
-const closePopupAddPost = function () {
-  closePopup(popupAddPost);
 };
 
 const createPost = function (imgHref, name) {
@@ -123,9 +134,6 @@ const createPost = function (imgHref, name) {
 
 // Попап просмотра поста
 const popupViewPost = document.querySelector(selectors.popupViewPost);
-const popupViewPostCloseButton = popupViewPost.querySelector(
-  selectors.popupViewPostCloseButton
-);
 const popupViewPostPhoto = popupViewPost.querySelector(
   selectors.popupViewPostPhoto
 );
@@ -147,10 +155,8 @@ const addEventListeners = function () {
   profileAddPostButton.addEventListener("click", openPopupAddPost);
 
   //Закрытие попапов
-  popupProfileEditCloseButton.addEventListener("click", closePopupProfileEdit);
-  popupAddPostCloseButton.addEventListener("click", closePopupAddPost);
-  popupViewPostCloseButton.addEventListener("click", function () {
-    closePopup(popupViewPost);
+  popups.forEach(popup => {
+    popup.addEventListener('mousedown', event => closePopupOverlayAndButton(event, popup));
   });
 
   //Обработка введённой информации в попапах
@@ -160,7 +166,7 @@ const addEventListeners = function () {
     closePopupAddPost();
   });
 
-  //Всплытие события лайка поста
+  //Делегирование события лайка поста
   elementsList.addEventListener("click", function (event) {
     if (event.target.classList.contains("element__like-button")) {
       event.target.classList.toggle("element__like-button_active");
