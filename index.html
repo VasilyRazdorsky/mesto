@@ -46,12 +46,12 @@
                 
                 <h2 class="popup__header">Редактировать профиль</h2>
                 
-                <form action="#" class="popup__form popup__form_place_edit-popup" name="edit-profile">
-                    <input type="text" placeholder="Имя" class="popup__input popup__input_text_profile-name">
-                    <span class="popup__error"></span>
-                    <input type="text" placeholder="О себе" class="popup__input popup__input_text_profile-more-info">
-                    <span class="popup__error"></span>
-                    <button disabled type="submit" class="popup__save-button popup__save-button_disabled">Сохранить</button>
+                <form action="#" class="popup__form popup__form_place_edit-popup" name="edit-profile" novalidate>
+                    <input type="text" placeholder="Имя" value="Жак-Ив Кусто" class="popup__input popup__input_text_profile-name" id="name-input" required minlength="2" maxlength="40">
+                    <span class="popup__error name-input-error"></span>
+                    <input type="text" placeholder="О себе" value="Исследователь океана" class="popup__input popup__input_text_profile-more-info" id="info-input" required minlength="2" maxlength="200">
+                    <span class="popup__error info-input-error"></span>
+                    <button type="submit" class="popup__save-button">Сохранить</button>
                 </form>
                 
             </div>
@@ -66,11 +66,11 @@
                 <h2 class="popup__header">Новое место</h2>
                 
                 <form action="#" class="popup__form popup__form_place_add-post-popup" name="add-post">
-                    <input type="text" placeholder="Название" class="popup__input popup__input_text_post-name">
-                    <span class="popup__error"></span>
-                    <input type="text" placeholder="Ссылка на картинку" class="popup__input popup__input_text_post-img-href">
-                    <span class="popup__error"></span>
-                    <button disabled type="submit" class="popup__save-button popup__save-button_disabled">Сохранить</button>
+                    <input type="text" placeholder="Название" class="popup__input popup__input_text_post-name" id="post-name-input" required minlength="2" maxlength="30">
+                    <span class="popup__error post-name-input-error"></span>
+                    <input type="url" placeholder="Ссылка на картинку" class="popup__input popup__input_text_post-img-href" id="url-input" required>
+                    <span class="popup__error url-input-error"></span>
+                    <button type="submit" class="popup__save-button">Сохранить</button>
                 </form>
                 
             </div>
@@ -102,6 +102,8 @@
         </div>
     </template>
     
+    <script src="scripts/data.js"></script>
     <script src="scripts/index.js"></script>
+    <script src="scripts/validate.js"></script>
 </body>
 </html>
