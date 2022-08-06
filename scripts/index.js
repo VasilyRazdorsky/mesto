@@ -197,6 +197,5 @@ const createInitialPosts = function () {
   ];
   initialCards.forEach((item) => createPost(item.link, item.name));
 };
-
 addEventListeners();
 createInitialPosts();
