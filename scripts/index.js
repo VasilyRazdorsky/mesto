@@ -1,3 +1,7 @@
+import { selectors, cardSelectors, formSelectors, initialCards } from "./data.js";
+import { Card } from "./Card.js";
+
+
 // Универсальные функции открытия и закрытия попапов
 const openPopup = (popup) => {
   document.addEventListener('keydown', closePopupWithKey);
@@ -45,7 +49,7 @@ const openPopupProfileEdit = function () {
   openPopup(popupProfileEdit);
   popupInputName.value = profileName.textContent;
   popupInputMoreInfo.value = profileMoreInfo.textContent;
-  cleanLastValidation(popupProfileEditForm, formSelectors);
+  //cleanLastValidation(popupProfileEditForm, formSelectors);
 };
 
 const handleFormSubmiProfileEdit = function () {
@@ -69,10 +73,11 @@ const elementsList = document.querySelector(selectors.elementsList);
 const openPopupAddPost = function () {
   popupAddPostName.value = "";
   popupAddPostImgHref.value = "";
-  cleanLastValidation(popupAddPostForm, formSelectors);
+  //cleanLastValidation(popupAddPostForm, formSelectors);
   openPopup(popupAddPost);
 };
 
+/*
 const createPost = function (imgHref, name) {
   const template = document
     .querySelector(selectors.elementTemplate)
@@ -107,10 +112,16 @@ const createPost = function (imgHref, name) {
   
   return template;
 };
+*/
 
 
-const addNewCardOnPage = function(imgHref, name) {
-  elementsList.prepend(createPost(imgHref,name));
+const addNewCardOnPage = function(name, link) {
+  const config = {
+    name: name,
+    link: link,
+  };
+  const card = new Card(config, cardSelectors.elementTemplate);
+  elementsList.prepend(card.generateCard());
 }
 
 
@@ -142,14 +153,16 @@ const addEventListeners = function () {
 
   //Обработка введённой информации в попапах
   popupProfileEditForm.addEventListener("submit", handleFormSubmiProfileEdit);
-  popupAddPostForm.addEventListener("submit", function () {
-    addNewCardOnPage(popupAddPostImgHref.value, popupAddPostName.value);
+  popupAddPostForm.addEventListener("submit", function (evt) {
+    evt.preventDefault();
+    addNewCardOnPage(popupAddPostName.value, popupAddPostImgHref.value);
     closePopup(popupAddPost);
   });
 };
 
 function createInitialPosts() {
-  initialCards.forEach((item) => addNewCardOnPage(item.link, item.name));
+  initialCards.forEach((item) => addNewCardOnPage(item.name, item.link));
 };
 addEventListeners();
 createInitialPosts();
+

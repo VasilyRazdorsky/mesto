@@ -1,3 +1,5 @@
+import { selectors, cardSelectors, formSelectors, initialCards } from "./data.js";
+
 // Реализация валидации
 const findErrorPlace = function(formElement, inputElement) {
     return formElement.querySelector(`.${inputElement.id}-error`);

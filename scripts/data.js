@@ -31,6 +31,16 @@ const selectors = {
     elementRemoveButton: ".element__remove-button",
 };
 
+const cardSelectors = {
+    elementTemplate: ".element-template",
+    element: ".element",
+    elementViewButton: ".element__view-button",
+    elementPhoto: ".element__photo",
+    elementName: ".element__name",
+    elementLikeButton: ".element__like-button",
+    elementRemoveButton: ".element__remove-button",
+}
+
 const formSelectors = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
@@ -67,3 +77,6 @@ const initialCards = [
       link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
     },
 ];
+
+
+export {selectors, cardSelectors, formSelectors, initialCards};
