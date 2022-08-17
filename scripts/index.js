@@ -163,6 +163,8 @@ const addEventListeners = function () {
 function createInitialPosts() {
   initialCards.forEach((item) => addNewCardOnPage(item.name, item.link));
 };
+
 addEventListeners();
 createInitialPosts();
 
+export {viewPostPhoto};

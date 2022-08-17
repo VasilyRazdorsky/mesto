@@ -1,4 +1,5 @@
 import {cardSelectors} from "./data.js";
+import {viewPostPhoto} from "./index.js";
 
 class Card {
     constructor(config, template) {
@@ -16,8 +17,32 @@ class Card {
         return cardElement;
     }
 
+    _toggleLikeButtonState() {
+        this._element.querySelector(cardSelectors.elementLikeButton).classList.toggle(cardSelectors.elementLikeButtonActiveState);
+    }
+
+    _removeCardFromPage() {
+        this._element.remove();
+    }
+
+    _setEventListeners() {
+        this._element.querySelector(cardSelectors.elementLikeButton).addEventListener("click", () => {
+            this._toggleLikeButtonState();
+        });
+
+        this._element.querySelector(cardSelectors.elementRemoveButton).addEventListener("click", () => {
+            this._removeCardFromPage();
+        });
+
+        this._element.querySelector(cardSelectors.elementViewButton).addEventListener("click", () => {
+            viewPostPhoto(this._config.link, this._config.name);
+        });
+    }
+
     generateCard() {
         this._element = this._getTemplate();
+
+        this._setEventListeners();
 
         this._element.querySelector(cardSelectors.elementName).textContent = this._config.name;
         const elementPhoto = this._element.querySelector(cardSelectors.elementPhoto);

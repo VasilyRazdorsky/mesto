@@ -38,6 +38,7 @@ const cardSelectors = {
     elementPhoto: ".element__photo",
     elementName: ".element__name",
     elementLikeButton: ".element__like-button",
+    elementLikeButtonActiveState: "element__like-button_active",
     elementRemoveButton: ".element__remove-button",
 }
 
