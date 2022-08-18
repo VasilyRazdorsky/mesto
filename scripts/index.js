@@ -1,5 +1,6 @@
 import { selectors, cardSelectors, formSelectors, initialCards } from "./data.js";
 import { Card } from "./Card.js";
+import { FormValidator } from "./FormValidator.js";
 
 
 // Универсальные функции открытия и закрытия попапов
@@ -46,10 +47,12 @@ const popupProfileEditForm = popupProfileEdit.querySelector(
 );
 
 const openPopupProfileEdit = function () {
-  openPopup(popupProfileEdit);
+  const form = new FormValidator(formSelectors, popupProfileEditForm);
+  form.enableValidation();
   popupInputName.value = profileName.textContent;
   popupInputMoreInfo.value = profileMoreInfo.textContent;
-  //cleanLastValidation(popupProfileEditForm, formSelectors);
+  form.cleanLastValidation();
+  openPopup(popupProfileEdit);
 };
 
 const handleFormSubmiProfileEdit = function () {
@@ -73,46 +76,11 @@ const elementsList = document.querySelector(selectors.elementsList);
 const openPopupAddPost = function () {
   popupAddPostName.value = "";
   popupAddPostImgHref.value = "";
-  //cleanLastValidation(popupAddPostForm, formSelectors);
+  const form = new FormValidator(formSelectors, popupAddPostForm);
+  form.enableValidation();
+  form.cleanLastValidation();
   openPopup(popupAddPost);
 };
-
-/*
-const createPost = function (imgHref, name) {
-  const template = document
-    .querySelector(selectors.elementTemplate)
-    .content.querySelector(selectors.element)
-    .cloneNode(true);
-
-  const elementPhoto = template.querySelector(selectors.elementPhoto);
-  elementPhoto.src = imgHref;
-  elementPhoto.alt = name;
-  template.querySelector(selectors.elementName).textContent = name;
-
-  // Лайк поста
-  const elementLikeButton = template.querySelector(selectors.elementLikeButton);
-  elementLikeButton.addEventListener("click", function () {
-    elementLikeButton.classList.toggle("element__like-button_active");
-  });
-
-  // Удаление поста
-  const elementRemoveButton = template.querySelector(
-    selectors.elementRemoveButton
-  );
-  elementRemoveButton.addEventListener("click", () => {
-    template.remove();
-  });
-
-  // Просмотр фото поста
-  const elementViewButton = template.querySelector(selectors.elementViewButton);
-  elementViewButton.addEventListener("click", function () {
-    viewPostPhoto(imgHref, name);
-  });
-
-  
-  return template;
-};
-*/
 
 
 const addNewCardOnPage = function(name, link) {
@@ -153,8 +121,7 @@ const addEventListeners = function () {
 
   //Обработка введённой информации в попапах
   popupProfileEditForm.addEventListener("submit", handleFormSubmiProfileEdit);
-  popupAddPostForm.addEventListener("submit", function (evt) {
-    evt.preventDefault();
+  popupAddPostForm.addEventListener("submit", function () {
     addNewCardOnPage(popupAddPostName.value, popupAddPostImgHref.value);
     closePopup(popupAddPost);
   });
