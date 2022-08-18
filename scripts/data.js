@@ -22,13 +22,6 @@ const selectors = {
     popupViewPostName: ".popup__photo-place",
     popupViewPostCloseButton: ".popup__close-button_place_view-post-popup",
     elementsList: ".elements",
-    elementTemplate: ".element-template",
-    element: ".element",
-    elementViewButton: ".element__view-button",
-    elementPhoto: ".element__photo",
-    elementName: ".element__name",
-    elementLikeButton: ".element__like-button",
-    elementRemoveButton: ".element__remove-button",
 };
 
 const cardSelectors = {
