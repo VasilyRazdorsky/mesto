@@ -46,12 +46,13 @@ const popupProfileEditForm = popupProfileEdit.querySelector(
   selectors.popupProfileEditForm
 );
 
+const profileEditForm = new FormValidator(formSelectors, popupProfileEditForm);
+profileEditForm.enableValidation();
+
 const openPopupProfileEdit = function () {
-  const form = new FormValidator(formSelectors, popupProfileEditForm);
-  form.enableValidation();
   popupInputName.value = profileName.textContent;
   popupInputMoreInfo.value = profileMoreInfo.textContent;
-  form.cleanLastValidation();
+  profileEditForm.cleanLastValidation();
   openPopup(popupProfileEdit);
 };
 
@@ -72,24 +73,27 @@ const popupAddPostImgHref = popupAddPost.querySelector(
 );
 const popupAddPostForm = popupAddPost.querySelector(selectors.popupAddPostForm);
 const elementsList = document.querySelector(selectors.elementsList);
+const addPostForm = new FormValidator(formSelectors, popupAddPostForm);
+addPostForm.enableValidation();
 
 const openPopupAddPost = function () {
   popupAddPostName.value = "";
   popupAddPostImgHref.value = "";
-  const form = new FormValidator(formSelectors, popupAddPostForm);
-  form.enableValidation();
-  form.cleanLastValidation();
+  addPostForm.cleanLastValidation();
   openPopup(popupAddPost);
 };
 
 
+const setNewCard = function(name, link) {
+  cardSelectors.name = name;
+  cardSelectors.link = link;
+  const card = new Card(cardSelectors, cardSelectors.elementTemplate);
+  return card.generateCard();
+}
+
 const addNewCardOnPage = function(name, link) {
-  const config = {
-    name: name,
-    link: link,
-  };
-  const card = new Card(config, cardSelectors.elementTemplate);
-  elementsList.prepend(card.generateCard());
+  const card = setNewCard(name, link)
+  elementsList.prepend(card);
 }
 
 

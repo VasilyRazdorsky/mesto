@@ -1,4 +1,3 @@
-import {cardSelectors} from "./data.js";
 import {viewPostPhoto} from "./index.js";
 
 class Card {
@@ -9,16 +8,16 @@ class Card {
 
     _getTemplate() {
         const cardElement = document
-        .querySelector(cardSelectors.elementTemplate)
+        .querySelector(this._config.elementTemplate)
         .content
-        .querySelector(cardSelectors.element)
+        .querySelector(this._config.element)
         .cloneNode(true);
 
         return cardElement;
     }
 
     _toggleLikeButtonState() {
-        this._element.querySelector(cardSelectors.elementLikeButton).classList.toggle(cardSelectors.elementLikeButtonActiveState);
+        this._element.querySelector(this._config.elementLikeButton).classList.toggle(this._config.elementLikeButtonActiveState);
     }
 
     _removeCardFromPage() {
@@ -26,15 +25,15 @@ class Card {
     }
 
     _setEventListeners() {
-        this._element.querySelector(cardSelectors.elementLikeButton).addEventListener("click", () => {
+        this._element.querySelector(this._config.elementLikeButton).addEventListener("click", () => {
             this._toggleLikeButtonState();
         });
 
-        this._element.querySelector(cardSelectors.elementRemoveButton).addEventListener("click", () => {
+        this._element.querySelector(this._config.elementRemoveButton).addEventListener("click", () => {
             this._removeCardFromPage();
         });
 
-        this._element.querySelector(cardSelectors.elementViewButton).addEventListener("click", () => {
+        this._element.querySelector(this._config.elementViewButton).addEventListener("click", () => {
             viewPostPhoto(this._config.link, this._config.name);
         });
     }
@@ -44,8 +43,8 @@ class Card {
 
         this._setEventListeners();
 
-        this._element.querySelector(cardSelectors.elementName).textContent = this._config.name;
-        const elementPhoto = this._element.querySelector(cardSelectors.elementPhoto);
+        this._element.querySelector(this._config.elementName).textContent = this._config.name;
+        const elementPhoto = this._element.querySelector(this._config.elementPhoto);
         elementPhoto.alt = this._config.name;
         elementPhoto.src = this._config.link;
 

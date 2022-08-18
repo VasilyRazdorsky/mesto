@@ -33,6 +33,8 @@ const cardSelectors = {
     elementLikeButton: ".element__like-button",
     elementLikeButtonActiveState: "element__like-button_active",
     elementRemoveButton: ".element__remove-button",
+    name: "",
+    link: "",
 }
 
 const formSelectors = {
