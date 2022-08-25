@@ -1,4 +1,4 @@
-import {viewPostPhoto} from "./index.js";
+//import {viewPostPhoto} from "./index.js";
 
 class Card {
     constructor(config, template) {
@@ -34,7 +34,7 @@ class Card {
         });
 
         this._element.querySelector(this._config.elementViewButton).addEventListener("click", () => {
-            viewPostPhoto(this._config.link, this._config.name);
+            //viewPostPhoto(this._config.link, this._config.name);
         });
     }
 

@@ -1,8 +1,25 @@
 import { selectors, cardSelectors, formSelectors, initialCards } from "./data.js";
 import { Card } from "./Card.js";
 import { FormValidator } from "./FormValidator.js";
+import { Popup } from "./Popup.js"
 
 
+const popupProfileEdit = new Popup(selectors.popupProfileEdit);
+popupProfileEdit.setEventListeners();
+const popupAddPost = new Popup(selectors.popupAddPost);
+popupAddPost.setEventListeners();
+
+const profileEditButton = document.querySelector(selectors.profileEditButton);
+const profileAddPostButton = document.querySelector(selectors.profileAddPostButton);
+
+profileEditButton.addEventListener("click", () => {
+  popupProfileEdit.open();
+});
+
+profileAddPostButton.addEventListener("click", () => {
+  popupAddPost.open();
+})
+/*
 // Универсальные функции открытия и закрытия попапов
 const openPopup = (popup) => {
   document.addEventListener('keydown', closePopupWithKey);
@@ -34,8 +51,14 @@ function closePopupWithKey(event) {
 
 
 // Попап редактирования профиля
+const popupProfileEdit = new Popup(selectors.popupProfileEdit);
+
+
+
 const popupProfileEdit = document.querySelector(selectors.popupProfileEdit);
-const popupInputName = popupProfileEdit.querySelector(selectors.popupInputName);
+
+
+//const popupInputName = popupProfileEdit.querySelector(selectors.popupInputName);
 const profileName = document.querySelector(selectors.profileName);
 const popupInputMoreInfo = popupProfileEdit.querySelector(
   selectors.popupInputMoreInfo
@@ -62,6 +85,8 @@ const handleFormSubmiProfileEdit = function () {
   closePopup(popupProfileEdit);
 };
 
+
+
 // Попап добавления постов
 const popupAddPost = document.querySelector(selectors.popupAddPost);
 const profileAddPostButton = document.querySelector(
@@ -84,6 +109,9 @@ const openPopupAddPost = function () {
 };
 
 
+const elementsList = document.querySelector(selectors.elementsList);
+
+
 const setNewCard = function(name, link) {
   cardSelectors.name = name;
   cardSelectors.link = link;
@@ -92,7 +120,7 @@ const setNewCard = function(name, link) {
 }
 
 const addNewCardOnPage = function(name, link) {
-  const card = setNewCard(name, link)
+  const card = setNewCard(name, link);
   elementsList.prepend(card);
 }
 
@@ -113,9 +141,12 @@ function viewPostPhoto(imgHref, name) {
   openPopup(popupViewPost);
 }
 
+/*
 const addEventListeners = function () {
   //Открытие попапов
-  profileEditButton.addEventListener("click", openPopupProfileEdit);
+  profileEditButton.addEventListener("click", () => {
+    popupProfileEdit.open();
+  });
   profileAddPostButton.addEventListener("click", openPopupAddPost);
 
   //Закрытие попапов
@@ -131,11 +162,14 @@ const addEventListeners = function () {
   });
 };
 
+
 function createInitialPosts() {
   initialCards.forEach((item) => addNewCardOnPage(item.name, item.link));
 };
 
-addEventListeners();
+//addEventListeners();
 createInitialPosts();
 
+
 export {viewPostPhoto};
+*/
