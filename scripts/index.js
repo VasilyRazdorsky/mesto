@@ -1,22 +1,48 @@
-import { selectors, cardSelectors, formSelectors, initialCards } from "./data.js";
+import {selectors, 
+        cardSelectors, 
+        formSelectors, 
+        initialCards,
+        popupInputName,
+        popupInputMoreInfo,
+        popupAddPostName,
+        popupAddPostImgHref,
+        profileEditButton,
+        profileAddPostButton } from "./data.js";
 import { Card } from "./Card.js";
 import { FormValidator } from "./FormValidator.js";
 import { Popup } from "./Popup.js"
+import { PopupWithForm } from "./PopupWithForm.js";
+import { UserInfo } from "./UserInfo.js";
+
+const profile = new UserInfo({ profileName: selectors.profileName, profileMoreInfo: selectors.profileMoreInfo});
 
 
-const popupProfileEdit = new Popup(selectors.popupProfileEdit);
+//Редактирование профиля
+const popupProfileEdit = new PopupWithForm(selectors.popupProfileEdit, (inputValues) => {
+  profile.setUserInfo(inputValues);
+});
+const profileEditForm = new FormValidator(formSelectors, document.querySelector(selectors.popupProfileEdit));
+profileEditForm.enableValidation();
 popupProfileEdit.setEventListeners();
-const popupAddPost = new Popup(selectors.popupAddPost);
+
+//Добавление поста
+const popupAddPost = new PopupWithForm(selectors.popupAddPost, () => {});
+const addPostForm = new FormValidator(formSelectors, document.querySelector(selectors.popupAddPost));
+addPostForm.enableValidation();
 popupAddPost.setEventListeners();
 
-const profileEditButton = document.querySelector(selectors.profileEditButton);
-const profileAddPostButton = document.querySelector(selectors.profileAddPostButton);
-
+//открытие попапов
 profileEditButton.addEventListener("click", () => {
+  popupInputName.value = profile.getUserInfo().profileName;
+  popupInputMoreInfo.value = profile.getUserInfo().profileMoreInfo;
+  profileEditForm.cleanLastValidation();
   popupProfileEdit.open();
 });
 
 profileAddPostButton.addEventListener("click", () => {
+  popupAddPostName.value = "";
+  popupAddPostImgHref.value = "";
+  addPostForm.cleanLastValidation();
   popupAddPost.open();
 })
 /*

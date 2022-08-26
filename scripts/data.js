@@ -1,4 +1,4 @@
-const selectors = {
+export const selectors = {
     popupSelector: ".popup",
     popupActiveClass: "popup_active",
     popupActiveSelector: ".popup_active",
@@ -24,7 +24,7 @@ const selectors = {
     elementsList: ".elements",
 };
 
-const cardSelectors = {
+export const cardSelectors = {
     elementTemplate: ".element-template",
     element: ".element",
     elementViewButton: ".element__view-button",
@@ -37,7 +37,7 @@ const cardSelectors = {
     link: "",
 }
 
-const formSelectors = {
+export const formSelectors = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__save-button',
@@ -47,7 +47,7 @@ const formSelectors = {
     errorSelector: '.popup__error',
 };
 
-const initialCards = [
+export const initialCards = [
     {
       name: "Архыз",
       link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
@@ -75,4 +75,16 @@ const initialCards = [
 ];
 
 
-export {selectors, cardSelectors, formSelectors, initialCards};
+export const popupInputName = document.querySelector(selectors.popupInputName);
+export const popupInputMoreInfo = document.querySelector(
+  selectors.popupInputMoreInfo
+);
+
+
+export const popupAddPostName = document.querySelector(selectors.popupAddPostName);
+export const popupAddPostImgHref = document.querySelector(
+  selectors.popupAddPostImgHref
+);
+
+export const profileEditButton = document.querySelector(selectors.profileEditButton);
+export const profileAddPostButton = document.querySelector(selectors.profileAddPostButton);
