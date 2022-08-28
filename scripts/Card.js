@@ -1,7 +1,8 @@
 export default class Card {
-    constructor(config, template) {
+    constructor(config, template, handleCardClick) {
         this._config = config;
         this._template = template;
+        this._handleCardClick = handleCardClick;
     }
 
     _getTemplate() {
@@ -32,7 +33,7 @@ export default class Card {
         });
 
         this._element.querySelector(this._config.elementViewButton).addEventListener("click", () => {
-            //viewPostPhoto(this._config.link, this._config.name);
+            this._handleCardClick();
         });
     }
 
