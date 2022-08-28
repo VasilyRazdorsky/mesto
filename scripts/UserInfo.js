@@ -1,8 +1,7 @@
-class UserInfo {
+export default class UserInfo {
     constructor({ profileName, profileMoreInfo }){
         this._profileName = document.querySelector(profileName);
         this._profileMoreInfo = document.querySelector(profileMoreInfo);
-        console.log(this._profileName);
     }
 
     getUserInfo(){
@@ -18,4 +17,3 @@ class UserInfo {
     }
 }
 
-export { UserInfo };

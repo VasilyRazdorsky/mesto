@@ -1,6 +1,4 @@
-//import {viewPostPhoto} from "./index.js";
-
-class Card {
+export default class Card {
     constructor(config, template) {
         this._config = config;
         this._template = template;
@@ -51,5 +49,3 @@ class Card {
         return this._element;
     }
 }
-
-export {Card};
