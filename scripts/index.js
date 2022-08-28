@@ -13,7 +13,7 @@ import Section from "./Section.js";
 import Card from "./Card.js";
 import FormValidator from "./FormValidator.js";
 import PopupWithForm from "./PopupWithForm.js";
-import PopupWithImage from "./popupWithImage.js";
+import PopupWithImage from "./PopupWithImage.js";
 import UserInfo from "./UserInfo.js";
 
 
