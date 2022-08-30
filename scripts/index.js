@@ -45,10 +45,10 @@ const cardList = new Section({ items: initialCards, renderer: (item) => {
 
 
 const popupAddPost = new PopupWithForm(selectors.popupAddPost, (inputValues) => {
-  cardSelectors.name = inputValues[0];
-  cardSelectors.link = inputValues[1];
+  cardSelectors.name = inputValues.postName;
+  cardSelectors.link = inputValues.link;
   const card = new Card(cardSelectors, cardSelectors.elementTemplate, () => {
-    popupWithImage.open(inputValues[1], inputValues[0]);
+    popupWithImage.open(inputValues.link, inputValues.postName);
   });
   cardList.addItem(card.generateCard());
 });

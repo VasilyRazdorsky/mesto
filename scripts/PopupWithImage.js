@@ -8,7 +8,6 @@ export default class PopupWithImage extends Popup {
 
         this._popupElement.querySelector(".popup__photo-place").textContent = name;
 
-        console.log(this._popupElement);
         super.open();
     }
 }
