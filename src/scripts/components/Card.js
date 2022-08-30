@@ -7,16 +7,16 @@ export default class Card {
 
     _getTemplate() {
         const cardElement = document
-        .querySelector(this._config.elementTemplate)
+        .querySelector(this._template)
         .content
-        .querySelector(this._config.element)
+        .querySelector(".element")
         .cloneNode(true);
 
         return cardElement;
     }
 
     _toggleLikeButtonState() {
-        this._element.querySelector(this._config.elementLikeButton).classList.toggle(this._config.elementLikeButtonActiveState);
+        this._element.querySelector(".element__like-button").classList.toggle("element__like-button_active");
     }
 
     _removeCardFromPage() {
@@ -24,15 +24,15 @@ export default class Card {
     }
 
     _setEventListeners() {
-        this._element.querySelector(this._config.elementLikeButton).addEventListener("click", () => {
+        this._element.querySelector(".element__like-button").addEventListener("click", () => {
             this._toggleLikeButtonState();
         });
 
-        this._element.querySelector(this._config.elementRemoveButton).addEventListener("click", () => {
+        this._element.querySelector(".element__remove-button").addEventListener("click", () => {
             this._removeCardFromPage();
         });
 
-        this._element.querySelector(this._config.elementViewButton).addEventListener("click", () => {
+        this._element.querySelector(".element__view-button").addEventListener("click", () => {
             this._handleCardClick();
         });
     }
@@ -42,8 +42,8 @@ export default class Card {
 
         this._setEventListeners();
 
-        this._element.querySelector(this._config.elementName).textContent = this._config.name;
-        const elementPhoto = this._element.querySelector(this._config.elementPhoto);
+        this._element.querySelector(".element__name").textContent = this._config.name;
+        const elementPhoto = this._element.querySelector(".element__photo");
         elementPhoto.alt = this._config.name;
         elementPhoto.src = this._config.link;
 
