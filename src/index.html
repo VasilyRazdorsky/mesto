@@ -5,29 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mesto</title>
-    <link rel="stylesheet" href="pages/index.css">
 </head>
 <body class="page">
 
     <div class="page__container">
         <header class="header">
-            <img src="images/header-logo.svg" alt="Логотип Место" class="header__logo">
+            <img src="<%=require('./images/header-logo.svg')%>" alt="Логотип Место" class="header__logo">
         </header>
 
         <main>
             <section class="profile">
-                <img src="images/profile-avatar.jpg" alt="Аватар профиля" class="profile__avatar">
+                <img src="<%=require('./images/profile-avatar.jpg')%>" alt="Аватар профиля" class="profile__avatar">
                 <div class="profile__info">
                     <div class="profile__info-first-line">
                         <h1 class="profile__name">Жак-Ив Кусто</h1>
                         <button class="profile__edit-button" aria-label="Редактировать" type="button">
-                            <img src="images/pen-icon.svg" alt="Ручка" class="profile__pen-icon">
+                            <img src="<%=require('./images/pen-icon.svg')%>" alt="Ручка" class="profile__pen-icon">
                         </button>
                     </div>
                     <p class="profile__more-info">Исследователь океана</p>
                 </div>
                 <button class="profile__add-button" aria-label="Добавить пост" type="button">
-                    <img src="images/plus-icon.svg" alt="Плюс" class="profile__plus-icon">
+                    <img src="<%=require('./images/plus-icon.svg')%>" alt="Плюс" class="profile__plus-icon">
                 </button>
             </section>
 
@@ -41,7 +40,7 @@
         <section class="popup popup_action_edit">
             <div class="popup__container">
                 <button class="popup__close-button popup__close-button_place_edit-popup" aria-label="Закрыть редактирование" type="button">
-                    <img src="images/close-icon.svg" alt="Кнопка закрыть" class="popup__close-icon">
+                    <img src="<%=require('./images/close-icon.svg')%>" alt="Кнопка закрыть" class="popup__close-icon">
                 </button>
                 
                 <h2 class="popup__header">Редактировать профиль</h2>
@@ -60,7 +59,7 @@
         <section class="popup popup_action_add-post">
             <div class="popup__container">
                 <button class="popup__close-button popup__close-button_place_add-post-popup" aria-label="Закрыть редактирование" type="button">
-                    <img src="images/close-icon.svg" alt="Кнопка закрыть" class="popup__close-icon">
+                    <img src="<%=require('./images/close-icon.svg')%>" alt="Кнопка закрыть" class="popup__close-icon">
                 </button>
                 
                 <h2 class="popup__header">Новое место</h2>
@@ -79,7 +78,7 @@
         <section class="popup popup_action_view-post">
             <div class="popup__container popup__container_place_view-post-popup">
                 <button class="popup__close-button popup__close-button_place_view-post-popup" aria-label="Закрыть редактирование" type="button">
-                    <img src="images/close-icon.svg" alt="Кнопка закрыть" class="popup__close-icon">
+                    <img src="<%=require('./images/close-icon.svg')%>"  alt="Кнопка закрыть" class="popup__close-icon">
                 </button>
 
                 <img src="#" alt="#" class="popup__photo">
@@ -101,8 +100,5 @@
             <button class="element__remove-button" aria-label="Удалить пост" type="button"></button>
         </div>
     </template>
-    
-    
-    <script type="module" src="scripts/index.js"></script>
 </body>
 </html>
