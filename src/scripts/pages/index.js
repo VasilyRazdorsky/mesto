@@ -3,7 +3,6 @@ import {
   selectors,
   cardSelectors,
   formSelectors,
-  initialCards,
   popupInputName,
   popupInputMoreInfo,
   popupAddPostName,
@@ -61,22 +60,20 @@ const createCard = (config, template, handleCardClick) => {
   return card;
 };
 
-const cardList = new Section(
-  {
-    items: initialCards,
-    renderer: (item) => {
-      const cardData = {
-        name: item.name,
-        link: item.link,
-      };
-      const card = createCard(cardData, cardSelectors.elementTemplate, () => {
-        popupWithImage.open(item.link, item.name);
-      });
-      cardList.addItem(card.generateCard());
-    },
+
+const cardList = new Section((item) => {
+    const cardData = {
+      name: item.name,
+      link: item.link,
+    };
+    const card = createCard(cardData, cardSelectors.elementTemplate,() => {
+      popupWithImage.open(item.link, item.name);
+    });
+    cardList.addItem(card.generateCard());
   },
   selectors.elementsList
 );
+
 
 const popupAddPost = new PopupWithForm(
   selectors.popupAddPost,
@@ -115,4 +112,6 @@ profileAddPostButton.addEventListener("click", () => {
 });
 
 //Добавление initialCards на экран
-cardList.renderItems();
+api.getCardsInfo().then(res => {
+  cardList.renderItems(res);
+})

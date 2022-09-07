@@ -20,4 +20,17 @@ export default class Api {
         };
       });
   }
+
+  getCardsInfo() {
+    return fetch(`${this._adress}/cards`, {
+      method: "GET",
+      headers: this._headers,
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        return Array.from(data);
+      })
+  }
 }
