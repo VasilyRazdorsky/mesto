@@ -33,4 +33,15 @@ export default class Api {
         return Array.from(data);
       })
   }
+
+  changeUserInfo(inputValues) {
+    return fetch(`${this._adress}/users/me`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({
+        name: inputValues.name,
+        about: inputValues.moreInfo,
+      })
+    })
+  }
 }

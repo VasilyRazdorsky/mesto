@@ -41,6 +41,10 @@ api
 const popupProfileEdit = new PopupWithForm(
   selectors.popupProfileEdit,
   (inputValues) => {
+    api.changeUserInfo(inputValues)
+      .catch(err => {
+        console.log(`Ошибка: ${err}`);
+      })
     profile.setUserInfo(inputValues);
   }
 );
@@ -112,6 +116,10 @@ profileAddPostButton.addEventListener("click", () => {
 });
 
 //Добавление initialCards на экран
-api.getCardsInfo().then(res => {
+api.getCardsInfo()
+  .then(res => {
   cardList.renderItems(res);
-})
+  })
+  .catch(err => {
+    console.log(`Ошибка: ${err}`)
+  })
