@@ -82,14 +82,16 @@ const cardList = new Section((item) => {
 const popupAddPost = new PopupWithForm(
   selectors.popupAddPost,
   (inputValues) => {
-    const cardData = {
-      name: inputValues.postName,
-      link: inputValues.link,
-    };
-    const card = createCard(cardData, cardSelectors.elementTemplate, () => {
-      popupWithImage.open(inputValues.link, inputValues.postName);
+    api.addNewCard(inputValues)
+    .then(res => {
+      const card = createCard(res, cardSelectors.elementTemplate, () => {
+        popupWithImage.open(inputValues.link, inputValues.postName);
+      });
+      cardList.addItem(card.generateCard());
+    })
+    .catch(err => {
+      console.log(`Ошибка: ${err}`);
     });
-    cardList.addItem(card.generateCard());
   }
 );
 

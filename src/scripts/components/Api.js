@@ -44,4 +44,24 @@ export default class Api {
       })
     })
   }
+
+  addNewCard(cardInfo) {
+    return fetch(`${this._adress}/cards`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify({
+        name: cardInfo.postName,
+        link: cardInfo.link,  
+      })
+    })
+    .then(res => {
+      return res.json();
+    })
+    .then(data => {
+      return {
+        name: data.name,
+        link: data.link,
+      }
+    })
+  }
 }
