@@ -5,7 +5,7 @@
 .header{border-bottom:1px solid rgba(84,84,84,.7);margin-top:45px;padding-bottom:40px}@media screen and (max-width:568px){.header{margin-top:28px;padding-bottom:30px}}
 .header__logo{cursor:pointer;height:33px;text-decoration:none;width:142px}@media screen and (max-width:984px){.header__logo{padding-left:27px}}@media screen and (max-width:568px){.header__logo{height:24px;width:103px}}
 .profile{align-items:center;color:#fff;display:flex;margin-top:40px}@media screen and (max-width:984px){.profile{padding:0 27px}}@media screen and (max-width:720px){.profile{flex-direction:column;justify-content:center;margin-top:42px}}@media screen and (max-width:568px){.profile{display:block;padding:0 19px;text-align:center}}
-.profile__avatar{border-radius:50%;height:120px;width:120px}
+.profile__avatar{border-radius:50%;height:120px;-o-object-fit:cover;object-fit:cover;width:120px}
 .profile__info{display:flex;flex-wrap:wrap;margin-left:30px;max-width:336px}@media screen and (max-width:720px){.profile__info{margin:26px 0 0}}@media screen and (max-width:568px){.profile__info{margin:26px auto 0;max-width:282px}}
 .profile__info-first-line{align-items:center;display:flex;justify-content:space-between;width:100%}@media screen and (max-width:568px){.profile__info-first-line{justify-content:center}}
 .profile__name{font-size:42px;font-weight:500;line-height:48px;margin:0;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media screen and (max-width:568px){.profile__name{font-size:27px;line-height:33px;max-width:200px}}
