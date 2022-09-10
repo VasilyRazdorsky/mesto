@@ -18,11 +18,12 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api.js";
 
-const api = new Api("https://mesto.nomoreparties.co/v1/cohort-50", {
-  authorization: "3da86922-f76f-47f7-81bc-c1b3b90197e4",
-  "Content-Type": "application/json",
-});
-
+const api = new Api({ baseUrl:"https://mesto.nomoreparties.co/v1/cohort-50",
+  headers: {
+    authorization: "3da86922-f76f-47f7-81bc-c1b3b90197e4",
+    "Content-Type": "application/json",
+  }
+} );
 //Редактирование профиля
 const profile = new UserInfo({
   profileName: selectors.profileName,
@@ -69,6 +70,7 @@ const cardList = new Section((item) => {
     const cardData = {
       name: item.name,
       link: item.link,
+      likeCount: item.likes.length,
     };
     const card = createCard(cardData, cardSelectors.elementTemplate,() => {
       popupWithImage.open(item.link, item.name);

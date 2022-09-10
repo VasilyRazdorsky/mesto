@@ -1,5 +1,5 @@
 export default class Api {
-  constructor(baseUrl, headers) {
+  constructor({baseUrl, headers}) {
     this._adress = baseUrl;
     this._headers = headers;
   }
@@ -17,6 +17,7 @@ export default class Api {
           name: data.name,
           moreInfo: data.about,
           avatarUrl: data.avatar,
+          userId: data._id,
         };
       });
   }
@@ -30,6 +31,7 @@ export default class Api {
         return res.json();
       })
       .then(data => {
+        console.log(data);
         return Array.from(data);
       })
   }
@@ -51,7 +53,7 @@ export default class Api {
       headers: this._headers,
       body: JSON.stringify({
         name: cardInfo.postName,
-        link: cardInfo.link,  
+        link: cardInfo.link,
       })
     })
     .then(res => {

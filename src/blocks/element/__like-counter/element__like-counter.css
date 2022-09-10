@@ -1,0 +1,11 @@
+.element__like-counter {
+    margin: 0;
+    margin-top: 3px;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.element__like-counter:hover {
+    cursor: default;
+}

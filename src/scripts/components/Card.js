@@ -46,6 +46,7 @@ export default class Card {
         const elementPhoto = this._element.querySelector(".element__photo");
         elementPhoto.alt = this._config.name;
         elementPhoto.src = this._config.link;
+        this._element.querySelector(".element__like-counter").textContent = this._config.likeCount
 
         return this._element;
     }
