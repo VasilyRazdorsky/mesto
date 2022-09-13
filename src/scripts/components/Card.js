@@ -1,8 +1,8 @@
 export default class Card {
-  constructor({data, handleCardClick, handleDeleteButtonClick}) {
+  constructor({ data, handleCardClick, handleDeleteButtonClick }) {
     this._config = data.config;
     this._template = data.template;
-    this._cardUserId = data.userId;
+    this.cardUserId = data.userId;
     this._handleCardClick = handleCardClick;
     this._handleDeleteButtonClick = handleDeleteButtonClick;
   }
@@ -29,11 +29,12 @@ export default class Card {
         this._toggleLikeButtonState();
       });
 
-    this._element
-      .querySelector(".element__remove-button")
-      .addEventListener("click", () => {
+    const removeButton = this._element.querySelector(".element__remove-button");
+    if (removeButton) {
+      removeButton.addEventListener("click", () => {
         this._handleDeleteButtonClick();
       });
+    }
 
     this._element
       .querySelector(".element__view-button")
@@ -42,10 +43,14 @@ export default class Card {
       });
   }
 
-  generateCard() {
+  generateCard(withoutDeleteButton) {
     this._element = this._getTemplate();
 
     this._setEventListeners();
+
+    if (withoutDeleteButton) {
+      this._element.querySelector(".element__remove-button").remove();
+    }
 
     this._element.querySelector(".element__name").textContent =
       this._config.name;

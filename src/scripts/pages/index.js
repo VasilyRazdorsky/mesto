@@ -34,18 +34,17 @@ const profile = new UserInfo({
   profileAvatar: selectors.profileAvatar,
 });
 
-function getInitialUserInfo(){
+function getInitialUserInfo() {
   api
-  .getUserInfo()
-  .then((res) => {
-    profile.setUserInfo(res);
-  })
-  .catch((err) => {
-    console.log(`Ошибка: ${err}`);
-  });
+    .getUserInfo()
+    .then((res) => {
+      profile.setUserInfo(res);
+    })
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`);
+    });
 }
 getInitialUserInfo();
-
 
 const popupProfileEdit = new PopupWithForm(
   selectors.popupProfileEdit,
@@ -62,6 +61,13 @@ const profileEditForm = new FormValidator(
 );
 profileEditForm.enableValidation();
 popupProfileEdit.setEventListeners();
+
+profileEditButton.addEventListener("click", () => {
+  popupInputName.value = profile.getUserInfo().profileName;
+  popupInputMoreInfo.value = profile.getUserInfo().profileMoreInfo;
+  profileEditForm.cleanLastValidation();
+  popupProfileEdit.open();
+});
 
 //Добавление поста
 const popupWithImage = new PopupWithImage(selectors.popupViewPost);
@@ -83,92 +89,86 @@ const createCard = (
       userId: userId,
     },
     handleCardClick: handleCardClick,
-    handleDeleteButtonClick: handleDeleteButtonClick
-  }
-  );
+    handleDeleteButtonClick: handleDeleteButtonClick,
+  });
   return card;
 };
 
-
-
-const cardList = new Section((item) => {
-  const cardData = {
-    name: item.name,
-    link: item.link,
-    likeCount: item.likes.length,
-  };
-  const card = createCard(
+api.getUserInfo().then((data) => {
+  const userData = data;
+  const cardList = new Section((item) => {
+    const cardData = {
+      name: item.name,
+      link: item.link,
+      likeCount: item.likes.length,
+    };
+    const card = createCard(
       cardData,
       cardSelectors.elementTemplate,
+      item.owner._id,
       () => {
         popupWithImage.open(item.link, item.name);
       },
       () => {
         popupDeleteCard.open();
       }
+    );
+    if (card.cardUserId != userData.id) {
+      cardList.addItem(card.generateCard(true));
+    } else {
+      cardList.addItem(card.generateCard(false));
+    }
+  }, selectors.elementsList);
+
+  const popupAddPost = new PopupWithForm(
+    selectors.popupAddPost,
+    (inputValues) => {
+      api
+        .addNewCard(inputValues, userData._id)
+        .then((res) => {
+          const card = createCard(
+            res,
+            cardSelectors.elementTemplate,
+            userData.id,
+            () => {
+              popupWithImage.open(inputValues.link, inputValues.postName);
+            },
+            () => {
+              popupDeleteCard.open();
+            }
+          );
+          cardList.addItem(card.generateCard(false));
+        })
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
+        });
+    }
   );
-  cardList.addItem(card.generateCard());
-  
-}, selectors.elementsList);
+  popupAddPost.setEventListeners();
+  const addPostForm = new FormValidator(
+    formSelectors,
+    document.querySelector(selectors.popupAddPost)
+  );
+  addPostForm.enableValidation();
 
-const popupAddPost = new PopupWithForm(
-  selectors.popupAddPost,
-  (inputValues) => {
-    api
-      .addNewCard(inputValues)
-      .then((res) => {
-        const card = createCard(
-          res,
-          cardSelectors.elementTemplate,
-          () => {
-            popupWithImage.open(inputValues.link, inputValues.postName);
-          },
-          () => {
-            popupDeleteCard.open();
-          }
-        );
-        cardList.addItem(card.generateCard());
-      })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      });
-  }
-);
+  profileAddPostButton.addEventListener("click", () => {
+    popupAddPostName.value = "";
+    popupAddPostImgHref.value = "";
+    addPostForm.cleanLastValidation();
+    popupAddPost.open();
+  });
 
-const addPostForm = new FormValidator(
-  formSelectors,
-  document.querySelector(selectors.popupAddPost)
-);
-addPostForm.enableValidation();
-popupAddPost.setEventListeners();
-
-// Попап удаления карточки
-
-//открытие попапов
-profileEditButton.addEventListener("click", () => {
-  popupInputName.value = profile.getUserInfo().profileName;
-  popupInputMoreInfo.value = profile.getUserInfo().profileMoreInfo;
-  profileEditForm.cleanLastValidation();
-  popupProfileEdit.open();
-});
-
-profileAddPostButton.addEventListener("click", () => {
-  popupAddPostName.value = "";
-  popupAddPostImgHref.value = "";
-  addPostForm.cleanLastValidation();
-  popupAddPost.open();
+  getInitialCards(cardList);
 });
 
 //Добавление initialCards на экран
-function getInitialCards(){
+function getInitialCards(cardList) {
   api
-  .getCardsInfo()
-  .then((res) => {
-    cardList.renderItems(res);
-  })
-  .catch((err) => {
-    console.log(`Ошибка: ${err}`);
-  });
+    .getCardsInfo()
+    .then((res) => {
+      cardList.renderItems(res);
+    })
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`);
+    });
 }
-getInitialCards();
-
