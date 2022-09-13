@@ -27,12 +27,15 @@ const api = new Api({
   },
 });
 //Редактирование профиля
+
 const profile = new UserInfo({
   profileName: selectors.profileName,
   profileMoreInfo: selectors.profileMoreInfo,
   profileAvatar: selectors.profileAvatar,
 });
-api
+
+function getInitialUserInfo(){
+  api
   .getUserInfo()
   .then((res) => {
     profile.setUserInfo(res);
@@ -40,6 +43,9 @@ api
   .catch((err) => {
     console.log(`Ошибка: ${err}`);
   });
+}
+getInitialUserInfo();
+
 
 const popupProfileEdit = new PopupWithForm(
   selectors.popupProfileEdit,
@@ -66,17 +72,24 @@ popupDeleteCard.setEventListeners();
 const createCard = (
   config,
   template,
+  userId,
   handleCardClick,
   handleDeleteButtonClick
 ) => {
-  const card = new Card(
-    config,
-    template,
-    handleCardClick,
-    handleDeleteButtonClick
+  const card = new Card({
+    data: {
+      config: config,
+      template: template,
+      userId: userId,
+    },
+    handleCardClick: handleCardClick,
+    handleDeleteButtonClick: handleDeleteButtonClick
+  }
   );
   return card;
 };
+
+
 
 const cardList = new Section((item) => {
   const cardData = {
@@ -85,16 +98,17 @@ const cardList = new Section((item) => {
     likeCount: item.likes.length,
   };
   const card = createCard(
-    cardData,
-    cardSelectors.elementTemplate,
-    () => {
-      popupWithImage.open(item.link, item.name);
-    },
-    () => {
-      popupDeleteCard.open();
-    }
+      cardData,
+      cardSelectors.elementTemplate,
+      () => {
+        popupWithImage.open(item.link, item.name);
+      },
+      () => {
+        popupDeleteCard.open();
+      }
   );
   cardList.addItem(card.generateCard());
+  
 }, selectors.elementsList);
 
 const popupAddPost = new PopupWithForm(
@@ -146,7 +160,8 @@ profileAddPostButton.addEventListener("click", () => {
 });
 
 //Добавление initialCards на экран
-api
+function getInitialCards(){
+  api
   .getCardsInfo()
   .then((res) => {
     cardList.renderItems(res);
@@ -154,3 +169,6 @@ api
   .catch((err) => {
     console.log(`Ошибка: ${err}`);
   });
+}
+getInitialCards();
+

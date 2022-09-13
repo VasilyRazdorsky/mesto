@@ -1,7 +1,8 @@
 export default class Card {
-  constructor(config, template, handleCardClick, handleDeleteButtonClick) {
-    this._config = config;
-    this._template = template;
+  constructor({data, handleCardClick, handleDeleteButtonClick}) {
+    this._config = data.config;
+    this._template = data.template;
+    this._cardUserId = data.userId;
     this._handleCardClick = handleCardClick;
     this._handleDeleteButtonClick = handleDeleteButtonClick;
   }
@@ -20,12 +21,6 @@ export default class Card {
       .querySelector(".element__like-button")
       .classList.toggle("element__like-button_active");
   }
-
-  /*
-  _removeCardFromPage() {
-    this._element.remove();
-  }
-  */
 
   _setEventListeners() {
     this._element

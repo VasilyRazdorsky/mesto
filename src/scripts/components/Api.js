@@ -4,7 +4,7 @@ export default class Api {
     this._headers = headers;
   }
 
-  getUserInfo() {
+  getUserInfo(){
     return fetch(`${this._adress}/users/me`, {
       method: "GET",
       headers: this._headers,
@@ -17,9 +17,22 @@ export default class Api {
           name: data.name,
           moreInfo: data.about,
           avatarUrl: data.avatar,
-          userId: data._id,
+          _id: data._id,
         };
       });
+  }
+
+  getUserId(){
+    return fetch(`${this._adress}/users/me`, {
+      method: "GET",
+      headers: this._headers,
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        return data._id;
+      })
   }
 
   getCardsInfo() {
