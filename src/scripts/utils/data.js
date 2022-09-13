@@ -22,6 +22,7 @@ export const selectors = {
   popupViewPostPhoto: ".popup__photo",
   popupViewPostName: ".popup__photo-place",
   popupViewPostCloseButton: ".popup__close-button_place_view-post-popup",
+  popupDeleteCard: ".popup_action_delete-card",
   elementsList: ".elements",
 };
 

@@ -1,5 +1,5 @@
 export default class Api {
-  constructor({baseUrl, headers}) {
+  constructor({ baseUrl, headers }) {
     this._adress = baseUrl;
     this._headers = headers;
   }
@@ -27,13 +27,12 @@ export default class Api {
       method: "GET",
       headers: this._headers,
     })
-      .then(res => {
+      .then((res) => {
         return res.json();
       })
-      .then(data => {
-        console.log(data);
+      .then((data) => {
         return Array.from(data);
-      })
+      });
   }
 
   changeUserInfo(inputValues) {
@@ -43,8 +42,8 @@ export default class Api {
       body: JSON.stringify({
         name: inputValues.name,
         about: inputValues.moreInfo,
-      })
-    })
+      }),
+    });
   }
 
   addNewCard(cardInfo) {
@@ -54,16 +53,16 @@ export default class Api {
       body: JSON.stringify({
         name: cardInfo.postName,
         link: cardInfo.link,
+      }),
+    })
+      .then((res) => {
+        return res.json();
       })
-    })
-    .then(res => {
-      return res.json();
-    })
-    .then(data => {
-      return {
-        name: data.name,
-        link: data.link,
-      }
-    })
+      .then((data) => {
+        return {
+          name: data.name,
+          link: data.link,
+        };
+      });
   }
 }
