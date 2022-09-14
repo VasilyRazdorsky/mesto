@@ -72,13 +72,19 @@ profileEditButton.addEventListener("click", () => {
 //Добавление поста
 const popupWithImage = new PopupWithImage(selectors.popupViewPost);
 popupWithImage.setEventListeners();
-const popupDeleteCard = new PopupWithSubmit(selectors.popupDeleteCard);
+const popupDeleteCard = new PopupWithSubmit(selectors.popupDeleteCard, (cardId) => {
+  api.deleteCard(cardId).then().catch(err => {
+    console.log(`Ошибка: ${err}`);
+  })
+});
 popupDeleteCard.setEventListeners();
+
 
 const createCard = (
   config,
   template,
   userId,
+  cardId,
   handleCardClick,
   handleDeleteButtonClick
 ) => {
@@ -87,6 +93,7 @@ const createCard = (
       config: config,
       template: template,
       userId: userId,
+      cardId: cardId,
     },
     handleCardClick: handleCardClick,
     handleDeleteButtonClick: handleDeleteButtonClick,
@@ -106,11 +113,13 @@ api.getUserInfo().then((data) => {
       cardData,
       cardSelectors.elementTemplate,
       item.owner._id,
+      item._id,
       () => {
         popupWithImage.open(item.link, item.name);
       },
-      () => {
+      (card, cardId) => {
         popupDeleteCard.open();
+        popupDeleteCard.setAllInfoAboutCard(card, cardId);
       }
     );
     if (card.cardUserId != userData.id) {
@@ -130,11 +139,13 @@ api.getUserInfo().then((data) => {
             res,
             cardSelectors.elementTemplate,
             userData.id,
+            res.cardId,
             () => {
               popupWithImage.open(inputValues.link, inputValues.postName);
             },
-            () => {
+            (card, cardId) => {
               popupDeleteCard.open();
+              popupDeleteCard.setAllInfoAboutCard(card, cardId);
             }
           );
           cardList.addItem(card.generateCard(false));

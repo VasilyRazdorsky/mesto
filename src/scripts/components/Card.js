@@ -3,6 +3,7 @@ export default class Card {
     this._config = data.config;
     this._template = data.template;
     this.cardUserId = data.userId;
+    this.cardId = data.cardId;
     this._handleCardClick = handleCardClick;
     this._handleDeleteButtonClick = handleDeleteButtonClick;
   }
@@ -32,7 +33,7 @@ export default class Card {
     const removeButton = this._element.querySelector(".element__remove-button");
     if (removeButton) {
       removeButton.addEventListener("click", () => {
-        this._handleDeleteButtonClick();
+        this._handleDeleteButtonClick(this._element, this.cardId);
       });
     }
 

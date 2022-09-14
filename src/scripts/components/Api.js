@@ -62,7 +62,15 @@ export default class Api {
         return {
           name: data.name,
           link: data.link,
+          cardId: data._id,
         };
       });
+  }
+
+  deleteCard(cardId) {
+    return fetch(`${this._adress}/cards/${cardId}`, {
+      method: "DELETE",
+      headers: this._headers,
+    })
   }
 }
