@@ -85,8 +85,10 @@ const createCard = (
   template,
   userId,
   cardId,
+  myUserId,
   handleCardClick,
-  handleDeleteButtonClick
+  handleDeleteButtonClick,
+  handleLikeButtonClick,
 ) => {
   const card = new Card({
     data: {
@@ -94,12 +96,35 @@ const createCard = (
       template: template,
       userId: userId,
       cardId: cardId,
+      myUserId: myUserId,
     },
     handleCardClick: handleCardClick,
     handleDeleteButtonClick: handleDeleteButtonClick,
+    handleLikeButtonClick: handleLikeButtonClick,
   });
   return card;
 };
+
+function handleAllLikeProcesses(card, likeButton, cardId){
+  console.log(card);
+  if(likeButton.classList.contains(cardSelectors.elementLikeButtonActiveState)){
+    api.addLikeOnPost(cardId)
+    .then(likesArr => {
+      card.querySelector(cardSelectors.elementLikeCounter).textContent = likesArr.length;
+    })
+    .catch(err => {
+      console.log(`Ошибка: ${err}`);
+    });
+  } else {
+    api.deleteLikeFromPost(cardId)
+    .then(likesArr => {
+      card.querySelector(cardSelectors.elementLikeCounter).textContent = likesArr.length;
+    })
+    .catch(err => {
+      console.log(`Ошибка: ${err}`);
+    });
+  }
+}
 
 api.getUserInfo().then((data) => {
   const userData = data;
@@ -107,19 +132,23 @@ api.getUserInfo().then((data) => {
     const cardData = {
       name: item.name,
       link: item.link,
-      likeCount: item.likes.length,
+      likesArray: item.likes,
     };
     const card = createCard(
       cardData,
       cardSelectors.elementTemplate,
       item.owner._id,
       item._id,
+      userData.id,
       () => {
         popupWithImage.open(item.link, item.name);
       },
       (card, cardId) => {
         popupDeleteCard.open();
         popupDeleteCard.setAllInfoAboutCard(card, cardId);
+      },
+      (card, likeButton, cardId) => {
+        handleAllLikeProcesses(card, likeButton, cardId);
       }
     );
     if (card.cardUserId != userData.id) {
@@ -133,19 +162,23 @@ api.getUserInfo().then((data) => {
     selectors.popupAddPost,
     (inputValues) => {
       api
-        .addNewCard(inputValues, userData._id)
+        .addNewCard(inputValues)
         .then((res) => {
           const card = createCard(
             res,
             cardSelectors.elementTemplate,
             userData.id,
             res.cardId,
+            userData.id,
             () => {
               popupWithImage.open(inputValues.link, inputValues.postName);
             },
             (card, cardId) => {
               popupDeleteCard.open();
               popupDeleteCard.setAllInfoAboutCard(card, cardId);
+            },
+            (card, likeButton, cardId) => {
+              handleAllLikeProcesses(card, likeButton, cardId);
             }
           );
           cardList.addItem(card.generateCard(false));

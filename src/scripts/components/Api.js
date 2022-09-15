@@ -63,6 +63,7 @@ export default class Api {
           name: data.name,
           link: data.link,
           cardId: data._id,
+          likesArray: data.likes,
         };
       });
   }
@@ -71,6 +72,38 @@ export default class Api {
     return fetch(`${this._adress}/cards/${cardId}`, {
       method: "DELETE",
       headers: this._headers,
+    })
+  }
+
+  addLikeOnPost(cardId){
+    return fetch(`${this._adress}/cards/${cardId}/likes`, {
+      method: "PUT",
+      headers: this._headers,
+    })
+    .then(res => {
+      if(res.ok){
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+    .then(data => {
+      return data.likes;
+    })
+  }
+
+  deleteLikeFromPost(cardId){
+    return fetch(`${this._adress}/cards/${cardId}/likes`, {
+      method: "DELETE",
+      headers: this._headers,
+    })
+    .then(res => {
+      if(res.ok){
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+    .then(data => {
+      return data.likes;
     })
   }
 }

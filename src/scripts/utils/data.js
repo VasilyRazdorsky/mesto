@@ -34,6 +34,7 @@ export const cardSelectors = {
   elementName: ".element__name",
   elementLikeButton: ".element__like-button",
   elementLikeButtonActiveState: "element__like-button_active",
+  elementLikeCounter: ".element__like-counter",
   elementRemoveButton: ".element__remove-button",
   name: "",
   link: "",

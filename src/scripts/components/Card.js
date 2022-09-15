@@ -1,11 +1,13 @@
 export default class Card {
-  constructor({ data, handleCardClick, handleDeleteButtonClick }) {
+  constructor({ data, handleCardClick, handleDeleteButtonClick, handleLikeButtonClick }) {
     this._config = data.config;
     this._template = data.template;
     this.cardUserId = data.userId;
     this.cardId = data.cardId;
+    this.myUserId = data.myUserId;
     this._handleCardClick = handleCardClick;
     this._handleDeleteButtonClick = handleDeleteButtonClick;
+    this._handleLikeButtonClick = handleLikeButtonClick;
   }
 
   _getTemplate() {
@@ -17,17 +19,29 @@ export default class Card {
     return cardElement;
   }
 
-  _toggleLikeButtonState() {
-    this._element
-      .querySelector(".element__like-button")
-      .classList.toggle("element__like-button_active");
+  _toggleLikeButtonState(likeButton) {
+    if(likeButton.classList.contains("element__like-button_active")){
+      likeButton.classList.remove("element__like-button_active");
+    } else {
+      likeButton.classList.add("element__like-button_active");
+    }
+  }
+
+  _setBasicLikeStatus(data){
+    this._element.querySelector(".element__like-counter").textContent =
+      data.length;
+    data.forEach(obj => {
+      if(obj._id === this.myUserId){
+        this._likeButton.classList.add("element__like-button_active");
+      }
+    })
   }
 
   _setEventListeners() {
-    this._element
-      .querySelector(".element__like-button")
-      .addEventListener("click", () => {
-        this._toggleLikeButtonState();
+    this._likeButton = this._element.querySelector(".element__like-button");
+    this._likeButton.addEventListener("click", () => {
+        this._toggleLikeButtonState(this._likeButton);
+        this._handleLikeButtonClick(this._element ,this._likeButton ,this.cardId);
       });
 
     const removeButton = this._element.querySelector(".element__remove-button");
@@ -58,8 +72,8 @@ export default class Card {
     const elementPhoto = this._element.querySelector(".element__photo");
     elementPhoto.alt = this._config.name;
     elementPhoto.src = this._config.link;
-    this._element.querySelector(".element__like-counter").textContent =
-      this._config.likeCount;
+
+    this._setBasicLikeStatus(this._config.likesArray);
 
     return this._element;
   }
