@@ -10,7 +10,10 @@ export default class Api {
       headers: this._headers,
     })
       .then((res) => {
-        return res.json();
+        if(res.ok){
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
       })
       .then((data) => {
         return {
@@ -28,7 +31,10 @@ export default class Api {
       headers: this._headers,
     })
       .then((res) => {
-        return res.json();
+        if(res.ok){
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
       })
       .then((data) => {
         return Array.from(data);
@@ -56,7 +62,10 @@ export default class Api {
       }),
     })
       .then((res) => {
-        return res.json();
+        if(res.ok){
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
       })
       .then((data) => {
         return {
