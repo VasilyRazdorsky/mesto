@@ -57,6 +57,9 @@ const popupChangeAvatar = new PopupWithForm(
     })
     .catch(err => {
       console.log(`Ошибка: ${err}`);
+    })
+    .finally(() => {
+      popupChangeAvatar.close();
     });
   }
 );
@@ -77,8 +80,12 @@ profileAvatarButton.addEventListener("click", () => {
 const popupProfileEdit = new PopupWithForm(
   selectors.popupProfileEdit,
   (inputValues) => {
-    api.changeUserInfo(inputValues).catch((err) => {
+    api.changeUserInfo(inputValues)
+    .catch((err) => {
       console.log(`Ошибка: ${err}`);
+    })
+    .finally(() => {
+      popupProfileEdit.close();
     });
     profile.setUserInfo(inputValues);
   }
@@ -213,6 +220,9 @@ api.getUserInfo().then((data) => {
         })
         .catch((err) => {
           console.log(`Ошибка: ${err}`);
+        })
+        .finally(() => {
+          popupAddPost.close();
         });
     }
   );
