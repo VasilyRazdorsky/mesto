@@ -9,6 +9,8 @@ import {
   popupAddPostImgHref,
   profileEditButton,
   profileAddPostButton,
+  profileAvatarButton,
+  popupInputAvatarHref,
 } from "../utils/data.js";
 import Section from "../components/Section.js";
 import Card from "../components/Card.js";
@@ -45,6 +47,32 @@ function getInitialUserInfo() {
     });
 }
 getInitialUserInfo();
+
+const popupChangeAvatar = new PopupWithForm(
+  selectors.popupChangeAvatar,
+  (inputValues) => {
+    api.changeAvatar(inputValues)
+    .then(res => {
+      profile.setUserAvatar(res);
+    })
+    .catch(err => {
+      console.log(`Ошибка: ${err}`);
+    });
+  }
+);
+popupChangeAvatar.setEventListeners();
+
+const changeAvatarForm = new FormValidator(
+  formSelectors,
+  document.querySelector(selectors.popupChangeAvatar)
+)
+changeAvatarForm.enableValidation();
+
+profileAvatarButton.addEventListener("click", () => {
+  popupInputAvatarHref.value = ""; 
+  changeAvatarForm.cleanLastValidation();
+  popupChangeAvatar.open();
+})
 
 const popupProfileEdit = new PopupWithForm(
   selectors.popupProfileEdit,

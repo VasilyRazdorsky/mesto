@@ -115,4 +115,25 @@ export default class Api {
       return data.likes;
     })
   }
+
+  changeAvatar(inputValues){
+    return fetch(`${this._adress}/users/me/avatar`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar: inputValues.avatarLink,
+      })
+    })
+    .then(res => {
+      if(res.ok){
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+    .then(data => {
+      return {
+        avatarUrl: data.avatar,
+      }
+    })
+  }
 }

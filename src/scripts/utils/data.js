@@ -9,6 +9,7 @@ export const selectors = {
   popupInputName: ".popup__input_text_profile-name",
   popupInputMoreInfo: ".popup__input_text_profile-more-info",
   profileAvatar: ".profile__avatar",
+  profileAvatarButton: ".profile__avatar-button",
   profileName: ".profile__name",
   profileMoreInfo: ".profile__more-info",
   popupProfileEditForm: ".popup__form_place_edit-popup",
@@ -23,6 +24,8 @@ export const selectors = {
   popupViewPostName: ".popup__photo-place",
   popupViewPostCloseButton: ".popup__close-button_place_view-post-popup",
   popupDeleteCard: ".popup_action_delete-card",
+  popupChangeAvatar: ".popup_action_change-avatar",
+  popupInputAvatarHref: ".popup__input_text_avatar-img-href",
   elementsList: ".elements",
 };
 
@@ -68,3 +71,6 @@ export const profileEditButton = document.querySelector(
 export const profileAddPostButton = document.querySelector(
   selectors.profileAddPostButton
 );
+
+export const profileAvatarButton = document.querySelector(selectors.profileAvatarButton);
+export const popupInputAvatarHref = document.querySelector(selectors.popupInputAvatarHref);
