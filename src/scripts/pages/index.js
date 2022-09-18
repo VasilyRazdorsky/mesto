@@ -28,8 +28,8 @@ const api = new Api({
     "Content-Type": "application/json",
   },
 });
-//Редактирование профиля
 
+// Создание профиля
 const profile = new UserInfo({
   profileName: selectors.profileName,
   profileMoreInfo: selectors.profileMoreInfo,
@@ -48,6 +48,8 @@ function getInitialUserInfo() {
 }
 getInitialUserInfo();
 
+
+// Смена аватара
 const popupChangeAvatar = new PopupWithForm(
   selectors.popupChangeAvatar,
   (inputValues) => {
@@ -77,6 +79,8 @@ profileAvatarButton.addEventListener("click", () => {
   popupChangeAvatar.open();
 })
 
+
+// Редактирование профиля
 const popupProfileEdit = new PopupWithForm(
   selectors.popupProfileEdit,
   (inputValues) => {
@@ -104,7 +108,7 @@ profileEditButton.addEventListener("click", () => {
   popupProfileEdit.open();
 });
 
-//Добавление поста
+// Взаимодействие с постом
 const popupWithImage = new PopupWithImage(selectors.popupViewPost);
 popupWithImage.setEventListeners();
 const popupDeleteCard = new PopupWithSubmit(selectors.popupDeleteCard, (cardId) => {
@@ -114,7 +118,7 @@ const popupDeleteCard = new PopupWithSubmit(selectors.popupDeleteCard, (cardId) 
 });
 popupDeleteCard.setEventListeners();
 
-
+// Функция настройки карточки
 const createCard = (
   config,
   template,
@@ -140,8 +144,8 @@ const createCard = (
   return card;
 };
 
+// Функция при нажатии на кнопку лайка
 function handleAllLikeProcesses(card, likeButton, cardId){
-  console.log(card);
   if(likeButton.classList.contains(cardSelectors.elementLikeButtonActiveState)){
     api.addLikeOnPost(cardId)
     .then(likesArr => {
@@ -163,6 +167,8 @@ function handleAllLikeProcesses(card, likeButton, cardId){
 
 api.getUserInfo().then((data) => {
   const userData = data;
+
+  // Создание и настройка секции для постов
   const cardList = new Section((item) => {
     const cardData = {
       name: item.name,
@@ -193,6 +199,8 @@ api.getUserInfo().then((data) => {
     }
   }, selectors.elementsList);
 
+
+  // Добавление поста
   const popupAddPost = new PopupWithForm(
     selectors.popupAddPost,
     (inputValues) => {
@@ -243,7 +251,7 @@ api.getUserInfo().then((data) => {
   getInitialCards(cardList);
 });
 
-//Добавление initialCards на экран
+//Добавление initial Cards на экран
 function getInitialCards(cardList) {
   api
     .getCardsInfo()
