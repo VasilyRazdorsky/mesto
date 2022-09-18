@@ -48,21 +48,21 @@ function getInitialUserInfo() {
 }
 getInitialUserInfo();
 
-
 // Смена аватара
 const popupChangeAvatar = new PopupWithForm(
   selectors.popupChangeAvatar,
   (inputValues) => {
-    api.changeAvatar(inputValues)
-    .then(res => {
-      profile.setUserAvatar(res);
-    })
-    .catch(err => {
-      console.log(`Ошибка: ${err}`);
-    })
-    .finally(() => {
-      popupChangeAvatar.close();
-    });
+    api
+      .changeAvatar(inputValues)
+      .then((res) => {
+        profile.setUserAvatar(res);
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      })
+      .finally(() => {
+        popupChangeAvatar.close();
+      });
   }
 );
 popupChangeAvatar.setEventListeners();
@@ -70,27 +70,27 @@ popupChangeAvatar.setEventListeners();
 const changeAvatarForm = new FormValidator(
   formSelectors,
   document.querySelector(selectors.popupChangeAvatar)
-)
+);
 changeAvatarForm.enableValidation();
 
 profileAvatarButton.addEventListener("click", () => {
-  popupInputAvatarHref.value = ""; 
+  popupInputAvatarHref.value = "";
   changeAvatarForm.cleanLastValidation();
   popupChangeAvatar.open();
-})
-
+});
 
 // Редактирование профиля
 const popupProfileEdit = new PopupWithForm(
   selectors.popupProfileEdit,
   (inputValues) => {
-    api.changeUserInfo(inputValues)
-    .catch((err) => {
-      console.log(`Ошибка: ${err}`);
-    })
-    .finally(() => {
-      popupProfileEdit.close();
-    });
+    api
+      .changeUserInfo(inputValues)
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      })
+      .finally(() => {
+        popupProfileEdit.close();
+      });
     profile.setUserInfo(inputValues);
   }
 );
@@ -111,11 +111,17 @@ profileEditButton.addEventListener("click", () => {
 // Взаимодействие с постом
 const popupWithImage = new PopupWithImage(selectors.popupViewPost);
 popupWithImage.setEventListeners();
-const popupDeleteCard = new PopupWithSubmit(selectors.popupDeleteCard, (cardId) => {
-  api.deleteCard(cardId).then().catch(err => {
-    console.log(`Ошибка: ${err}`);
-  })
-});
+const popupDeleteCard = new PopupWithSubmit(
+  selectors.popupDeleteCard,
+  (cardId) => {
+    api
+      .deleteCard(cardId)
+      .then()
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
+  }
+);
 popupDeleteCard.setEventListeners();
 
 // Функция настройки карточки
@@ -127,7 +133,7 @@ const createCard = (
   myUserId,
   handleCardClick,
   handleDeleteButtonClick,
-  handleLikeButtonClick,
+  handleLikeButtonClick
 ) => {
   const card = new Card({
     data: {
@@ -145,23 +151,29 @@ const createCard = (
 };
 
 // Функция при нажатии на кнопку лайка
-function handleAllLikeProcesses(card, likeButton, cardId){
-  if(likeButton.classList.contains(cardSelectors.elementLikeButtonActiveState)){
-    api.addLikeOnPost(cardId)
-    .then(likesArr => {
-      card.querySelector(cardSelectors.elementLikeCounter).textContent = likesArr.length;
-    })
-    .catch(err => {
-      console.log(`Ошибка: ${err}`);
-    });
+function handleAllLikeProcesses(card, likeButton, cardId) {
+  if (
+    likeButton.classList.contains(cardSelectors.elementLikeButtonActiveState)
+  ) {
+    api
+      .addLikeOnPost(cardId)
+      .then((likesArr) => {
+        card.querySelector(cardSelectors.elementLikeCounter).textContent =
+          likesArr.length;
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
   } else {
-    api.deleteLikeFromPost(cardId)
-    .then(likesArr => {
-      card.querySelector(cardSelectors.elementLikeCounter).textContent = likesArr.length;
-    })
-    .catch(err => {
-      console.log(`Ошибка: ${err}`);
-    });
+    api
+      .deleteLikeFromPost(cardId)
+      .then((likesArr) => {
+        card.querySelector(cardSelectors.elementLikeCounter).textContent =
+          likesArr.length;
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
   }
 }
 
@@ -198,7 +210,6 @@ api.getUserInfo().then((data) => {
       cardList.addItem(card.generateCard(false));
     }
   }, selectors.elementsList);
-
 
   // Добавление поста
   const popupAddPost = new PopupWithForm(

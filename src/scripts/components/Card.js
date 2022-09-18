@@ -1,5 +1,10 @@
 export default class Card {
-  constructor({ data, handleCardClick, handleDeleteButtonClick, handleLikeButtonClick }) {
+  constructor({
+    data,
+    handleCardClick,
+    handleDeleteButtonClick,
+    handleLikeButtonClick,
+  }) {
     this._config = data.config;
     this._template = data.template;
     this.cardUserId = data.userId;
@@ -20,29 +25,29 @@ export default class Card {
   }
 
   _toggleLikeButtonState(likeButton) {
-    if(likeButton.classList.contains("element__like-button_active")){
+    if (likeButton.classList.contains("element__like-button_active")) {
       likeButton.classList.remove("element__like-button_active");
     } else {
       likeButton.classList.add("element__like-button_active");
     }
   }
 
-  _setBasicLikeStatus(data){
+  _setBasicLikeStatus(data) {
     this._element.querySelector(".element__like-counter").textContent =
       data.length;
-    data.forEach(obj => {
-      if(obj._id === this.myUserId){
+    data.forEach((obj) => {
+      if (obj._id === this.myUserId) {
         this._likeButton.classList.add("element__like-button_active");
       }
-    })
+    });
   }
 
   _setEventListeners() {
     this._likeButton = this._element.querySelector(".element__like-button");
     this._likeButton.addEventListener("click", () => {
-        this._toggleLikeButtonState(this._likeButton);
-        this._handleLikeButtonClick(this._element ,this._likeButton ,this.cardId);
-      });
+      this._toggleLikeButtonState(this._likeButton);
+      this._handleLikeButtonClick(this._element, this._likeButton, this.cardId);
+    });
 
     const removeButton = this._element.querySelector(".element__remove-button");
     if (removeButton) {

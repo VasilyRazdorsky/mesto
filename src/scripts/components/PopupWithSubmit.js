@@ -9,11 +9,11 @@ export default class PopupWithSubmit extends Popup {
     this._handleSubmit = handleSubmit;
   }
 
-  setAllInfoAboutCard(card, cardId){
+  setAllInfoAboutCard(card, cardId) {
     this._cardToDelete = card;
     this._cardId = cardId;
   }
-  
+
   setEventListeners() {
     super.setEventListeners();
     this._popupSubmitButton.addEventListener("click", () => {

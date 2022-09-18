@@ -10,7 +10,7 @@ export default class Api {
       headers: this._headers,
     })
       .then((res) => {
-        if(res.ok){
+        if (res.ok) {
           return res.json();
         }
         return Promise.reject(`Ошибка: ${res.status}`);
@@ -31,7 +31,7 @@ export default class Api {
       headers: this._headers,
     })
       .then((res) => {
-        if(res.ok){
+        if (res.ok) {
           return res.json();
         }
         return Promise.reject(`Ошибка: ${res.status}`);
@@ -62,7 +62,7 @@ export default class Api {
       }),
     })
       .then((res) => {
-        if(res.ok){
+        if (res.ok) {
           return res.json();
         }
         return Promise.reject(`Ошибка: ${res.status}`);
@@ -81,59 +81,59 @@ export default class Api {
     return fetch(`${this._adress}/cards/${cardId}`, {
       method: "DELETE",
       headers: this._headers,
-    })
+    });
   }
 
-  addLikeOnPost(cardId){
+  addLikeOnPost(cardId) {
     return fetch(`${this._adress}/cards/${cardId}/likes`, {
       method: "PUT",
       headers: this._headers,
     })
-    .then(res => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .then(data => {
-      return data.likes;
-    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
+      .then((data) => {
+        return data.likes;
+      });
   }
 
-  deleteLikeFromPost(cardId){
+  deleteLikeFromPost(cardId) {
     return fetch(`${this._adress}/cards/${cardId}/likes`, {
       method: "DELETE",
       headers: this._headers,
     })
-    .then(res => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .then(data => {
-      return data.likes;
-    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
+      .then((data) => {
+        return data.likes;
+      });
   }
 
-  changeAvatar(inputValues){
+  changeAvatar(inputValues) {
     return fetch(`${this._adress}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
         avatar: inputValues.avatarLink,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
       })
-    })
-    .then(res => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .then(data => {
-      return {
-        avatarUrl: data.avatar,
-      }
-    })
+      .then((data) => {
+        return {
+          avatarUrl: data.avatar,
+        };
+      });
   }
 }

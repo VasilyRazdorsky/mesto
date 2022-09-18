@@ -1,8 +1,8 @@
 export default class UserInfo {
-  constructor({ profileName, profileMoreInfo, profileAvatar}) {
+  constructor({ profileName, profileMoreInfo, profileAvatar }) {
     this._profileName = document.querySelector(profileName);
     this._profileMoreInfo = document.querySelector(profileMoreInfo);
-    this._profileAvatar = document.querySelector(profileAvatar);  
+    this._profileAvatar = document.querySelector(profileAvatar);
   }
 
   getUserInfo() {
@@ -13,11 +13,11 @@ export default class UserInfo {
     };
   }
 
-  setUserId(id){
+  setUserId(id) {
     this.profileId = id;
   }
 
-  getUserId(){
+  getUserId() {
     return this.profileId;
   }
 

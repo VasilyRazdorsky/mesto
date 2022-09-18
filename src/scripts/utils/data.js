@@ -72,5 +72,9 @@ export const profileAddPostButton = document.querySelector(
   selectors.profileAddPostButton
 );
 
-export const profileAvatarButton = document.querySelector(selectors.profileAvatarButton);
-export const popupInputAvatarHref = document.querySelector(selectors.popupInputAvatarHref);
+export const profileAvatarButton = document.querySelector(
+  selectors.profileAvatarButton
+);
+export const popupInputAvatarHref = document.querySelector(
+  selectors.popupInputAvatarHref
+);
