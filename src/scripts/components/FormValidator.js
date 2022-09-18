@@ -48,12 +48,6 @@ export default class FormValidator {
     }
   }
 
-  _setPreventDefault() {
-    this._formElement.addEventListener("submit", (evt) => {
-      evt.preventDefault();
-    });
-  }
-
   _setEventListeners() {
     this._inputList = Array.from(
       this._formElement.querySelectorAll(this._formSelectors.inputSelector)
@@ -72,7 +66,6 @@ export default class FormValidator {
   }
 
   enableValidation() {
-    this._setPreventDefault();
     this._setEventListeners();
   }
 

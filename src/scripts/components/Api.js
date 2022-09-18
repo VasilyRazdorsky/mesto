@@ -4,24 +4,23 @@ export default class Api {
     this._headers = headers;
   }
 
+  _getResponseData(res) {
+    if (!res.ok) {
+        return Promise.reject(`Ошибка: ${res.status}`); 
+    }
+    return res.json();
+  } 
+
   getUserInfo() {
     return fetch(`${this._adress}/users/me`, {
       method: "GET",
       headers: this._headers,
     })
       .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
+        return this._getResponseData(res);
       })
       .then((data) => {
-        return {
-          name: data.name,
-          moreInfo: data.about,
-          avatarUrl: data.avatar,
-          id: data._id,
-        };
+        return data;
       });
   }
 
@@ -31,13 +30,10 @@ export default class Api {
       headers: this._headers,
     })
       .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
+        return this._getResponseData(res);
       })
       .then((data) => {
-        return Array.from(data);
+        return data;
       });
   }
 
@@ -49,6 +45,9 @@ export default class Api {
         name: inputValues.name,
         about: inputValues.moreInfo,
       }),
+    })
+    .then((res) => {
+      return this._getResponseData(res);
     });
   }
 
@@ -62,18 +61,10 @@ export default class Api {
       }),
     })
       .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
+        return this._getResponseData(res);
       })
       .then((data) => {
-        return {
-          name: data.name,
-          link: data.link,
-          cardId: data._id,
-          likesArray: data.likes,
-        };
+        return data;
       });
   }
 
@@ -81,6 +72,9 @@ export default class Api {
     return fetch(`${this._adress}/cards/${cardId}`, {
       method: "DELETE",
       headers: this._headers,
+    })
+    .then((res) => {
+      return this._getResponseData(res);
     });
   }
 
@@ -90,13 +84,10 @@ export default class Api {
       headers: this._headers,
     })
       .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
+        return this._getResponseData(res);
       })
       .then((data) => {
-        return data.likes;
+        return data;
       });
   }
 
@@ -106,13 +97,10 @@ export default class Api {
       headers: this._headers,
     })
       .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
+        return this._getResponseData(res);
       })
       .then((data) => {
-        return data.likes;
+        return data;
       });
   }
 
@@ -125,15 +113,10 @@ export default class Api {
       }),
     })
       .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
+        return this._getResponseData(res);
       })
       .then((data) => {
-        return {
-          avatarUrl: data.avatar,
-        };
+        return data;
       });
   }
 }

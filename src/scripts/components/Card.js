@@ -13,6 +13,11 @@ export default class Card {
     this._handleCardClick = handleCardClick;
     this._handleDeleteButtonClick = handleDeleteButtonClick;
     this._handleLikeButtonClick = handleLikeButtonClick;
+
+  }
+
+  sayHi() {
+    console.log("Hi");
   }
 
   _getTemplate() {
@@ -63,12 +68,12 @@ export default class Card {
       });
   }
 
-  generateCard(withoutDeleteButton) {
+  generateCard() {
     this._element = this._getTemplate();
 
     this._setEventListeners();
 
-    if (withoutDeleteButton) {
+    if(this.cardUserId != this.myUserId){
       this._element.querySelector(".element__remove-button").remove();
     }
 
