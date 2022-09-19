@@ -36,24 +36,6 @@ const profile = new UserInfo({
   profileAvatar: selectors.profileAvatar,
 });
 
-function getInitialUserInfo() {
-  api
-    .getUserInfo()
-    .then((res) => {
-      const data = {
-        name: res.name,
-        moreInfo: res.about,
-        avatarUrl: res.avatar,
-        id: res._id,
-      }
-      profile.setUserInfo(data);
-    })
-    .catch((err) => {
-      console.log(`Ошибка: ${err}`);
-    });
-}
-getInitialUserInfo();
-
 // Смена аватара
 const popupChangeAvatar = new PopupWithForm(
   selectors.popupChangeAvatar,
@@ -193,8 +175,20 @@ const createCard = (
   return card;
 };
 
-api.getUserInfo().then((data) => {
-  const userData = data;
+
+function getAllInitialData() {
+  return Promise.all([api.getUserInfo(), api.getCardsInfo()]);
+}
+getAllInitialData().then(([userInfo, initialCards]) => {
+  // Начальная информация профиля
+  const data = {
+    name: userInfo.name,
+    moreInfo: userInfo.about,
+    avatarUrl: userInfo.avatar,
+    id: userInfo._id,
+  }
+  profile.setUserInfo(data);
+
 
   // Создание и настройка секции для постов
   const cardList = new Section((item) => {
@@ -208,7 +202,7 @@ api.getUserInfo().then((data) => {
       cardSelectors.elementTemplate,
       item.owner._id,
       item._id,
-      userData._id,
+      userInfo._id,
       () => {
         popupWithImage.open(item.link, item.name);
       },
@@ -220,7 +214,6 @@ api.getUserInfo().then((data) => {
         handleAllLikeProcesses(card, likeButton, cardId);
       }
     );
-    console.log(card);
     cardList.addItem(card.generateCard());
   }, selectors.elementsList);
 
@@ -240,9 +233,9 @@ api.getUserInfo().then((data) => {
           const card = createCard(
             cardData,
             cardSelectors.elementTemplate,
-            userData._id,
+            userInfo._id,
             cardData.cardId,
-            userData._id,
+            userInfo._id,
             () => {
               popupWithImage.open(inputValues.link, inputValues.postName);
             },
@@ -277,17 +270,9 @@ api.getUserInfo().then((data) => {
     popupAddPost.open();
   });
 
-  getInitialCards(cardList);
+  //Добавление initial Cards на экран
+  cardList.renderItems(initialCards);
+})
+.catch((err) => {
+  console.log(`Ошибка: ${err}`);
 });
-
-//Добавление initial Cards на экран
-function getInitialCards(cardList) {
-  api
-    .getCardsInfo()
-    .then((res) => {
-      cardList.renderItems(res);
-    })
-    .catch((err) => {
-      console.log(`Ошибка: ${err}`);
-    });
-}
