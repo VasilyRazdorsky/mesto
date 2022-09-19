@@ -13,6 +13,14 @@ export default class UserInfo {
     };
   }
 
+  getUserName() {
+    return this._profileName.textContent;
+  }
+
+  getUserMoreInfo() {
+    return this._profileMoreInfo.textContent;
+  }
+
   setUserId(id) {
     this.profileId = id;
   }

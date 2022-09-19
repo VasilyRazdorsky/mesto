@@ -13,11 +13,6 @@ export default class Card {
     this._handleCardClick = handleCardClick;
     this._handleDeleteButtonClick = handleDeleteButtonClick;
     this._handleLikeButtonClick = handleLikeButtonClick;
-
-  }
-
-  sayHi() {
-    console.log("Hi");
   }
 
   _getTemplate() {

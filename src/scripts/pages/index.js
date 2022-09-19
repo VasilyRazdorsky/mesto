@@ -93,6 +93,7 @@ const popupProfileEdit = new PopupWithForm(
     api
       .changeUserInfo(inputValues)
       .then(() => {
+        profile.setUserInfo(inputValues);
         popupProfileEdit.close();
       })
       .catch((err) => {
@@ -101,7 +102,6 @@ const popupProfileEdit = new PopupWithForm(
       .finally(() => {
         popupProfileEdit.submitButton.textContent = "Сохранить";
       });
-    profile.setUserInfo(inputValues);
   }
 );
 const profileEditForm = new FormValidator(
@@ -112,8 +112,8 @@ profileEditForm.enableValidation();
 popupProfileEdit.setEventListeners();
 
 profileEditButton.addEventListener("click", () => {
-  popupInputName.value = profile.getUserInfo().profileName;
-  popupInputMoreInfo.value = profile.getUserInfo().profileMoreInfo;
+  popupInputName.value = profile.getUserName();
+  popupInputMoreInfo.value = profile.getUserMoreInfo();
   profileEditForm.cleanLastValidation();
   popupProfileEdit.open();
 });
@@ -176,7 +176,6 @@ const createCard = (
   myUserId,
   handleCardClick,
   handleDeleteButtonClick,
-  deleteCardFromPage,
   handleLikeButtonClick
 ) => {
   const card = new Card({
@@ -189,7 +188,6 @@ const createCard = (
     },
     handleCardClick: handleCardClick,
     handleDeleteButtonClick: handleDeleteButtonClick,
-    deleteCardFromPage: deleteCardFromPage,
     handleLikeButtonClick: handleLikeButtonClick,
   });
   return card;
@@ -222,6 +220,7 @@ api.getUserInfo().then((data) => {
         handleAllLikeProcesses(card, likeButton, cardId);
       }
     );
+    console.log(card);
     cardList.addItem(card.generateCard());
   }, selectors.elementsList);
 
@@ -274,8 +273,6 @@ api.getUserInfo().then((data) => {
   addPostForm.enableValidation();
 
   profileAddPostButton.addEventListener("click", () => {
-    popupAddPostName.value = "";
-    popupAddPostImgHref.value = "";
     addPostForm.cleanLastValidation();
     popupAddPost.open();
   });
