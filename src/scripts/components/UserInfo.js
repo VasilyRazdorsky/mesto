@@ -21,10 +21,6 @@ export default class UserInfo {
     return this._profileMoreInfo.textContent;
   }
 
-  setUserId(id) {
-    this.profileId = id;
-  }
-
   getUserId() {
     return this.profileId;
   }

@@ -1,24 +1,26 @@
 import Popup from "./Popup.js";
 
 export default class PopupWithSubmit extends Popup {
-  constructor(popupSelector, handleSubmit) {
+  constructor(popupSelector) {
     super(popupSelector);
     this._popupSubmitButton = this._popupElement.querySelector(
       ".popup__save-button"
     );
-    this._handleSubmit = handleSubmit;
   }
 
-  setAllInfoAboutCard(card, cardId) {
-    this._cardToDelete = card;
-    this._cardId = cardId;
+  setSubmitHadler(newSubmitHandler) {
+    this._handleSubmit = newSubmitHandler;
+  }
+
+  changeSubmitButtonText(text){
+    this._popupSubmitButton.textContent = text;
   }
 
   setEventListeners() {
     super.setEventListeners();
     this._popupSubmitButton.addEventListener("click", () => {
-      this._handleSubmit(this._cardToDelete, this._cardId);
-      this.close();
+      this.changeSubmitButtonText("Удаление...");
+      this._handleSubmit();
     });
   }
 }

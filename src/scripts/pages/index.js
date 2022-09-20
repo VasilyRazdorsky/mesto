@@ -12,22 +12,14 @@ import {
   profileAvatarButton,
   popupInputAvatarHref,
 } from "../utils/data.js";
-import Section from "../components/Section.js";
+import { cardList } from "../components/Section.js";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithSubmit from "../components/PopupWithSubmit.js";
 import UserInfo from "../components/UserInfo.js";
-import Api from "../components/Api.js";
-
-const api = new Api({
-  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-50",
-  headers: {
-    authorization: "87a932a7-12e8-423b-b91b-02bb6834820c",
-    "Content-Type": "application/json",
-  },
-});
+import { api } from "../components/Api.js";
 
 // Создание профиля
 const profile = new UserInfo({
@@ -50,7 +42,7 @@ const popupChangeAvatar = new PopupWithForm(
         console.log(`Ошибка: ${err}`);
       })
       .finally(() => {
-        popupChangeAvatar.submitButton.textContent = "Сохранить";
+        popupChangeAvatar.changeSubmitButtonText("Сохранить");
       });
   }
 );
@@ -82,7 +74,7 @@ const popupProfileEdit = new PopupWithForm(
         console.log(`Ошибка: ${err}`);
       })
       .finally(() => {
-        popupProfileEdit.submitButton.textContent = "Сохранить";
+        popupProfileEdit.changeSubmitButtonText("Сохранить");
       });
   }
 );
@@ -103,82 +95,63 @@ profileEditButton.addEventListener("click", () => {
 // Взаимодействие с постом
 const popupWithImage = new PopupWithImage(selectors.popupViewPost);
 popupWithImage.setEventListeners();
+
 const popupDeleteCard = new PopupWithSubmit(
-  selectors.popupDeleteCard,
-  (card, cardId) => {
-    api
-      .deleteCard(cardId)
-      .then(() => {
-        card.remove();
-      })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      });
-  }
+  selectors.popupDeleteCard
 );
 popupDeleteCard.setEventListeners();
 
-
-
-// Функция при нажатии на кнопку лайка
-function handleAllLikeProcesses(card, likeButton, cardId) {
-  if (
-    likeButton.classList.contains(cardSelectors.elementLikeButtonActiveState)
-  ) {
-    api
-      .addLikeOnPost(cardId)
-      .then((res) => {
-        const likesArr = res.likes;
-        card.querySelector(cardSelectors.elementLikeCounter).textContent =
-          likesArr.length;
-      })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
+// Функция настройки карточки
+function createCardElement(cardInfo){
+  const card = new Card(
+    cardInfo,
+    cardSelectors.elementTemplate,
+    () => {
+      popupWithImage.open(cardInfo.link, cardInfo.name);
+    },
+    (cardId) => {
+      popupDeleteCard.open();
+      popupDeleteCard.setSubmitHadler(() => {
+        api.deleteCard(cardId)
+        .then((res) => {
+          card.deleteCardFromPage();
+          popupDeleteCard.close();
+          popupDeleteCard.changeSubmitButtonText("Да");
+        })
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
+        })
       });
-  } else {
-    api
-      .deleteLikeFromPost(cardId)
-      .then((res) => {
-        const likesArr = res.likes;
-        card.querySelector(cardSelectors.elementLikeCounter).textContent =
-          likesArr.length;
-      })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      });
-  }
+    },
+    (cardId) => {
+      if(card.getLikeButtonState()){
+        api.addLikeOnPost(cardId)
+        .then((res) => {
+          card.changeLikeCounter(res.likes.length);
+        })
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
+        });
+      } else {
+        api.deleteLikeFromPost(cardId)
+        .then((res) => {
+          card.changeLikeCounter(res.likes.length);
+        })
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
+        });
+      }
+    },
+  );
+  return card.generateCard();
 }
 
-// Функция настройки карточки
-const createCard = (
-  config,
-  template,
-  userId,
-  cardId,
-  myUserId,
-  handleCardClick,
-  handleDeleteButtonClick,
-  handleLikeButtonClick
-) => {
-  const card = new Card({
-    data: {
-      config: config,
-      template: template,
-      userId: userId,
-      cardId: cardId,
-      myUserId: myUserId,
-    },
-    handleCardClick: handleCardClick,
-    handleDeleteButtonClick: handleDeleteButtonClick,
-    handleLikeButtonClick: handleLikeButtonClick,
-  });
-  return card;
-};
 
 
 function getAllInitialData() {
   return Promise.all([api.getUserInfo(), api.getCardsInfo()]);
 }
+let userId;
 getAllInitialData().then(([userInfo, initialCards]) => {
   // Начальная информация профиля
   const data = {
@@ -188,86 +161,14 @@ getAllInitialData().then(([userInfo, initialCards]) => {
     id: userInfo._id,
   }
   profile.setUserInfo(data);
+  userId = data.id;
 
 
-  // Создание и настройка секции для постов
-  const cardList = new Section((item) => {
-    const cardData = {
-      name: item.name,
-      link: item.link,
-      likesArray: item.likes,
-    };
-    const card = createCard(
-      cardData,
-      cardSelectors.elementTemplate,
-      item.owner._id,
-      item._id,
-      userInfo._id,
-      () => {
-        popupWithImage.open(item.link, item.name);
-      },
-      (card, cardId) => {
-        popupDeleteCard.open();
-        popupDeleteCard.setAllInfoAboutCard(card, cardId);
-      },
-      (card, likeButton, cardId) => {
-        handleAllLikeProcesses(card, likeButton, cardId);
-      }
-    );
-    cardList.addItem(card.generateCard());
-  }, selectors.elementsList);
-
-  // Добавление поста
-  const popupAddPost = new PopupWithForm(
-    selectors.popupAddPost,
-    (inputValues) => {
-      api
-        .addNewCard(inputValues)
-        .then((res) => {
-          const cardData = {
-            name: res.name,
-            link: res.link,
-            cardId: res._id,
-            likesArray: res.likes,
-          }
-          const card = createCard(
-            cardData,
-            cardSelectors.elementTemplate,
-            userInfo._id,
-            cardData.cardId,
-            userInfo._id,
-            () => {
-              popupWithImage.open(inputValues.link, inputValues.postName);
-            },
-            (card, cardId) => {
-              popupDeleteCard.open();
-              popupDeleteCard.setAllInfoAboutCard(card, cardId);
-            },
-            (card, likeButton, cardId) => {
-              handleAllLikeProcesses(card, likeButton, cardId);
-            }
-          );
-          cardList.addItem(card.generateCard());
-          popupAddPost.close();
-        })
-        .catch((err) => {
-          console.log(`Ошибка: ${err}`);
-        })
-        .finally(() => {
-          popupAddPost.submitButton.textContent = "Сохранить";
-        });
-    }
-  );
-  popupAddPost.setEventListeners();
-  const addPostForm = new FormValidator(
-    formSelectors,
-    document.querySelector(selectors.popupAddPost)
-  );
-  addPostForm.enableValidation();
-
-  profileAddPostButton.addEventListener("click", () => {
-    addPostForm.cleanLastValidation();
-    popupAddPost.open();
+  // Настройка секции для постов
+  cardList.setRenderer((item) =>{
+    item.userId = userId;
+    const cardElement = createCardElement(item);
+    cardList.addItem(cardElement);
   });
 
   //Добавление initial Cards на экран
@@ -275,4 +176,37 @@ getAllInitialData().then(([userInfo, initialCards]) => {
 })
 .catch((err) => {
   console.log(`Ошибка: ${err}`);
+});
+
+
+// Добавление постов
+const popupAddPost = new PopupWithForm(
+  selectors.popupAddPost,
+  (inputValues) => {
+    api
+      .addNewCard(inputValues)
+      .then((res) => {
+        console.log(res);
+        const cardElement = createCardElement(res);
+        cardList.addItem(cardElement);
+        popupAddPost.close();
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      })
+      .finally(() => {
+        popupAddPost.submitButton.textContent = "Сохранить";
+      });
+  }
+);
+popupAddPost.setEventListeners();
+const addPostForm = new FormValidator(
+  formSelectors,
+  document.querySelector(selectors.popupAddPost)
+);
+addPostForm.enableValidation();
+
+profileAddPostButton.addEventListener("click", () => {
+  addPostForm.cleanLastValidation();
+  popupAddPost.open();
 });
