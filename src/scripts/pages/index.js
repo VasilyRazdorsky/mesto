@@ -12,7 +12,7 @@ import {
   profileAvatarButton,
   popupInputAvatarHref,
 } from "../utils/data.js";
-import { cardList } from "../components/Section.js";
+import Section from "../components/Section.js";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import PopupWithForm from "../components/PopupWithForm.js";
@@ -155,7 +155,7 @@ function getAllInitialData() {
   return Promise.all([api.getUserInfo(), api.getCardsInfo()]);
 }
 
-cardList.setRenderer((item) => {
+const cardList = new Section(".elements", (item) => {
   const cardElement = createCardElement(item);
   cardList.addItem(cardElement);
 });

@@ -1,14 +1,11 @@
-class Section {
-  constructor(containerSelector) {
+export default class Section {
+  constructor(containerSelector, renderer) {
     this._containerElement = document.querySelector(containerSelector);
+    this._renderer = renderer;
   }
 
   addItem(element) {
     this._containerElement.prepend(element);
-  }
-
-  setRenderer(newRenderer) {
-    this._renderer = newRenderer;
   }
 
   _clear() {
@@ -22,5 +19,3 @@ class Section {
     });
   }
 }
-
-export const cardList = new Section(".elements");
