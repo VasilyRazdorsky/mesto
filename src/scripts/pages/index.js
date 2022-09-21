@@ -99,8 +99,10 @@ popupWithImage.setEventListeners();
 const popupDeleteCard = new PopupWithSubmit(selectors.popupDeleteCard);
 popupDeleteCard.setEventListeners();
 
+let userId;
 // Функция настройки карточки
 function createCardElement(cardInfo) {
+  cardInfo.userId = userId;
   const card = new Card(
     cardInfo,
     cardSelectors.elementTemplate,
@@ -115,10 +117,12 @@ function createCardElement(cardInfo) {
           .then((res) => {
             card.deleteCardFromPage();
             popupDeleteCard.close();
-            popupDeleteCard.changeSubmitButtonText("Да");
           })
           .catch((err) => {
             console.log(`Ошибка: ${err}`);
+          })
+          .finally(() => {
+            popupDeleteCard.changeSubmitButtonText("Да");
           });
       });
     },
@@ -150,7 +154,12 @@ function createCardElement(cardInfo) {
 function getAllInitialData() {
   return Promise.all([api.getUserInfo(), api.getCardsInfo()]);
 }
-let userId;
+
+cardList.setRenderer((item) => {
+  const cardElement = createCardElement(item);
+  cardList.addItem(cardElement);
+});
+
 getAllInitialData()
   .then(([userInfo, initialCards]) => {
     // Начальная информация профиля
@@ -162,13 +171,6 @@ getAllInitialData()
     };
     profile.setUserInfo(data);
     userId = data.id;
-
-    // Настройка секции для постов
-    cardList.setRenderer((item) => {
-      item.userId = userId;
-      const cardElement = createCardElement(item);
-      cardList.addItem(cardElement);
-    });
 
     //Добавление initial Cards на экран
     cardList.renderItems(initialCards.reverse());

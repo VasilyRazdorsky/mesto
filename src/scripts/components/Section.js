@@ -7,7 +7,7 @@ class Section {
     this._containerElement.prepend(element);
   }
 
-  setRenderer(newRenderer){
+  setRenderer(newRenderer) {
     this._renderer = newRenderer;
   }
 
@@ -23,4 +23,4 @@ class Section {
   }
 }
 
-export const cardList = new Section(".elements")
+export const cardList = new Section(".elements");
